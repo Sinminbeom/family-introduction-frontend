@@ -17,7 +17,7 @@ class ListBoardComponent extends Component {
 
     componentDidMount() {
         try {
-            fetch('http://192.168.68.128/BoardList.php',{ 
+            fetch('http://49.168.71.214:8000/BoardList.php',{ 
               method: 'POST',
               headers:{
               }

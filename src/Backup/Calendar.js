@@ -68,7 +68,7 @@ class Week extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         try {
-          fetch('http://192.168.68.128/connect1.php',{ 
+          fetch('http://49.168.71.214:8000/connect1.php',{ 
             method: 'POST',
             headers:{
             }
@@ -106,7 +106,7 @@ class Week extends Component {
         formData.append('description',this.state.description);
 
         try {
-          fetch('http://192.168.68.128/connect.php',{ 
+          fetch('http://49.168.71.214:8000/connect.php',{ 
             method: 'POST',
             headers:{
               // 'Content-Type': 'application/json',

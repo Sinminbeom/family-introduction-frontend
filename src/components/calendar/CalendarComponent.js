@@ -35,7 +35,7 @@ class CalendarComponent extends Component{
 
   componentDidMount = () =>{
     try {
-      fetch('http://192.168.68.128/CalendarQuery.php',{ 
+      fetch('http://49.168.71.214:8000/CalendarQuery.php',{ 
         method: 'POST',
         headers:{
         }
@@ -100,9 +100,9 @@ class CalendarComponent extends Component{
     formData.append('end',end);
 
     try {
-      fetch('http://192.168.68.128/CalendarSave.php',{ 
+      fetch('http://49.168.71.214:8000/CalendarSave.php',{ 
         method: 'POST',
-        headers:{
+        headers:{ 
           // 'Content-Type': 'application/json',
           // 'Accept': 'application/json'
         },

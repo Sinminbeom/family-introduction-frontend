@@ -21,7 +21,7 @@ class ReadBoardComponent extends Component {
         const params = new URLSearchParams(search);
         const boardseq = params.get('boardseq');
 
-        fetch('http://192.168.68.128/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
+        fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
         ).then(res => res.json()).then((response) => {
             this.setState({ title: response[0].boardtitle});
             this.setState({ contents: response[0].boardcontent});

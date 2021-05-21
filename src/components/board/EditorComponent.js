@@ -68,7 +68,7 @@ class EditorComponent extends Component{
       };
       
       try {
-      fetch('http://192.168.68.128/ImageUpload.php', options)
+      fetch('http://49.168.71.214:8000/ImageUpload.php', options)
       .then(res => res.json())
       .then(response => {
             const link = response["url"];

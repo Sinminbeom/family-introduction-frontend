@@ -23,5 +23,6 @@ module.exports = {                                      // moduel export (옛날
             'window.Quill': 'quill'
             //template: './src/index.html'                // 생성한 템플릿 파일
         })
-    ]
+    ],
+
 }
