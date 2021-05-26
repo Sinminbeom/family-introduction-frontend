@@ -108,7 +108,7 @@ class CalendarComponent extends Component{
         },
         body: formData
     }).then(res => res.json())
-    .then(response => { console.log(response); });
+    .then(response => { this.componentDidMount(); this.setState({showModal : false });});
     } catch (err) {
       return console.error('err',err);
     }
