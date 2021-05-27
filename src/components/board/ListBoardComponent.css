@@ -1,12 +1,7 @@
-.color-nav {
-    background-color:darksalmon;
-}
-  
-.minbeom{
-    height: 750px;
-}
-
 .boardrow{
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+.board-table{
+    font-size: 2vw;
 }

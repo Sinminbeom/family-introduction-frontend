@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import Editor from './EditorComponent';
+import './BoardDetailComponent.css';
+import { Fragment } from 'react';
 
 
 class BoardDetailComponent extends Component {
@@ -75,23 +77,26 @@ class BoardDetailComponent extends Component {
 
     render() {
         return (
-            <div>
-                <h3 className="text-center">새글을 작성해주세요</h3>
-                <div className = "card-body">
-                    <form>
-                        <div className = "form-group">
-                            <Form.Label> Title </Form.Label>
-                            <Form.Control type="text" placeholder="title" name="title" className="form-control" 
-                            value={this.state.title} onChange={this.changeTitleHandler}/>
-                        </div>
-                        <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
-                        <div>&nbsp;</div><div>&nbsp;</div>
-                        <Button className="btn btn-success" onClick={this.createBoard}>Save</Button>
-                        <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>Cancel</Button>
-                    </form>
+            <Fragment>
+            
+                <div className="up">
+                    <h3 className="text-center">새글을 작성해주세요</h3>
+                    <div className = "card-body">
+                        <form>
+                            <div className = "form-group">
+                                <Form.Label> Title </Form.Label>
+                                <Form.Control type="text" placeholder="title" name="title" className="form-control" 
+                                value={this.state.title} onChange={this.changeTitleHandler}/>
+                            </div>
+                            <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
+                        </form>
+                    </div>
                 </div>
-
-            </div>
+                <div className="down">
+                    <Button className="btn btn-success" onClick={this.createBoard}>Save</Button>
+                    <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>Cancel</Button>
+                </div>
+            </Fragment>
         );
     }
 }

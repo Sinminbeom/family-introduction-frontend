@@ -1,0 +1,35 @@
+.nav-main{
+    background-color:darksalmon;
+    width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+.mobile-nav-main{
+    background-color:darksalmon;
+    width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+.mobile-nav-title{
+    width: 15%;
+}
+.mobile-nav-contents{
+    width: 85%;
+    font-size: 2vw;
+}
+
+.mobile-nav-contents-calendar{
+    width: 18%;
+    
+}
+.mobile-nav-contents-baking{
+    width: 18%;
+}
+.mobile-nav-contents-story{
+    width: 18%;
+}
+.mobile-nav-contents-account{
+    width: 18%;
+}
