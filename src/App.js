@@ -16,17 +16,23 @@ class App extends Component{
     render(){
         return( 
             <Router>
-                <HeaderComponent/>
-                <BrowserRouter basename='/minbeom/'>
-                    <Switch>
-                        <Route path = "/" exact component = {ListBoardComponent}></Route>
-                        <Route path = "/board" component = {ListBoardComponent}></Route>
-                        <Route path = "/board-detail" component = {BoardDetailComponent}></Route>
-                        <Route path = "/board-read" component = {ReadBoardComponent}></Route>
-                        <Route path = "/calendar" component = {CalendarComponent}></Route>
-                        <Route path = "/accountbook" component = {AccountBookComponent}></Route>
-                    </Switch>
-                </BrowserRouter>
+                <div className="app-main">
+                    <div className="app-main-header">
+                        <HeaderComponent/>
+                    </div>
+                    <div className="app-main-contents">
+                        <BrowserRouter basename='/minbeom/'>
+                            <Switch>
+                                <Route path = "/" exact component = {ListBoardComponent}></Route>
+                                <Route path = "/board" component = {ListBoardComponent}></Route>
+                                <Route path = "/board-detail" component = {BoardDetailComponent}></Route>
+                                <Route path = "/board-read" component = {ReadBoardComponent}></Route>
+                                <Route path = "/calendar" component = {CalendarComponent}></Route>
+                                <Route path = "/accountbook" component = {AccountBookComponent}></Route>
+                            </Switch>
+                        </BrowserRouter>
+                    </div>
+                </div>
             </Router>
         );
     }

@@ -77,26 +77,29 @@ class BoardDetailComponent extends Component {
 
     render() {
         return (
-            <Fragment>
-            
-                <div className="up">
-                    <h3 className="text-center">새글을 작성해주세요</h3>
-                    <div className = "card-body">
-                        <form>
-                            <div className = "form-group">
+  
+                <div className="board-detail-main">
+                    <div className="board-detail-header">
+                        <h3 className="text-center">새글을 작성해주세요</h3>
+                    </div>
+                    <div className = "board-detail">
+                        <form className="board-detail-form">
+                            <div className = "form-group1">
                                 <Form.Label> Title </Form.Label>
                                 <Form.Control type="text" placeholder="title" name="title" className="form-control" 
                                 value={this.state.title} onChange={this.changeTitleHandler}/>
                             </div>
-                            <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
+                            <div className = "form-group2">
+                                <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
+                            </div>
                         </form>
+                        <div className="board-detail-button">
+                            <Button className="btn btn-success" onClick={this.createBoard}>저장</Button>
+                            <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>취소</Button>
+                        </div>
                     </div>
                 </div>
-                <div className="down">
-                    <Button className="btn btn-success" onClick={this.createBoard}>Save</Button>
-                    <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>Cancel</Button>
-                </div>
-            </Fragment>
+
         );
     }
 }

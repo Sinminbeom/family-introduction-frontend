@@ -4,8 +4,11 @@ import 'react-quill/dist/quill.snow.css';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';  // import as default
 import QuillImageDropAndPaste from "./ImageDropAndPaste";
+import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
+import { Fragment } from 'react';
 Quill.register('modules/imageResize', ImageResize);
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
+
 
 
 
@@ -14,6 +17,7 @@ class EditorComponent extends Component{
     super(props);
 
   }
+
   formats = [
         //'font',
         'header',
@@ -49,31 +53,36 @@ class EditorComponent extends Component{
   }
   
   imageHandler()  {
+    
+    const range =  this.quill.getSelection();
+    const quill = this.quill;
+    var formData = new FormData();
+
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
-    input.onchange = async function() {
+    //input.onChange() = function(); 안쓴이유는 모든 브라우저는 잘되는데 safari만 onChange 이벤트를 못씀
+    input.addEventListener('change',async function() {
+      
       const file = input.files[0];
+      
       console.log('User trying to uplaod this:', file);
-
-      var formData = new FormData();
+      
       formData.append("image",file);
-
-      const range = this.quill.getSelection();
 
       const options = {
         method: 'POST',
         body: formData,
       };
-      
+  
       try {
-      fetch('http://49.168.71.214:8000/ImageUpload.php', options)
-      .then(res => res.json())
-      .then(response => {
-            const link = response["url"];
-            this.quill.insertEmbed(range.index, 'image', link); 
-        });
+        fetch('http://49.168.71.214:8000/ImageUpload.php', options)
+        .then(res => res.json())
+        .then(response => {
+              const link = response["url"];
+              quill.insertEmbed(range.index, 'image', link); 
+          });
       }
       catch(err)
       {
@@ -83,7 +92,8 @@ class EditorComponent extends Component{
       // this part the image is inserted
       // by 'image' option below, you just have to put src(link) of img here. 
       
-    }.bind(this); // react thing
+    });
+
   }
 
   imageHandler1(dataUrl, type, imageData, callback) {
@@ -123,8 +133,28 @@ class EditorComponent extends Component{
         // const { value, onChange } = this.props;
         
         return(
-
-                <ReactQuill
+          <Fragment>
+          {isBrowser  ? <ReactQuill
+                              ref={(el) => {this.quill = el;}}
+                              style={{height: "600px"}} 
+                              theme="snow" 
+                              modules={this.modules} 
+                              formats={this.formats} 
+                              value={this.props.value || ''} 
+                              onChange={this.onQuillChange}
+                        />
+                      :
+                        <ReactQuill
+                              ref={this.quill}
+                              style={{height: "350px"}} 
+                              theme="snow" 
+                              modules={this.modules} 
+                              formats={this.formats} 
+                              value={this.props.value || ''} 
+                              onChange={this.onQuillChange}
+                        />
+          }
+                {/* <ReactQuill
                     ref={this.quill}
                     style={{height: "100%"}} 
                     theme="snow" 
@@ -133,7 +163,8 @@ class EditorComponent extends Component{
                     value={this.props.value || ''} 
                     //onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
                     onChange={this.onQuillChange}
-                />
+                /> */}
+                </Fragment>
         );
     }
 }

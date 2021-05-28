@@ -1,6 +1,24 @@
-.up{
-    height: 90%;
+.board-detail-header{
+    height: 5%;
 }
-.down{
-    height: 90%;
+.board-detail{
+    padding:1.25rem;
+    height: 95%;
+}
+.board-detail-form{
+    height: 95%;
+}
+.board-detail-button{
+    height: 5%;
+}
+.form-group1{
+    margin-bottom:1rem;
+    height: 12%;
+}
+.form-group2{
+    margin-bottom:1rem;
+    height: 88%;
+}
+.board-detail-main{
+    height:100%;
 }
