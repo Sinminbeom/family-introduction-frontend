@@ -63,12 +63,12 @@ class EditorComponent extends Component{
     input.setAttribute('accept', 'image/*');
     input.click();
     //input.onChange() = function(); 안쓴이유는 모든 브라우저는 잘되는데 safari만 onChange 이벤트를 못씀
-    input.addEventListener('change',async function() {
+    function api() {
       
       const file = input.files[0];
       
       console.log('User trying to uplaod this:', file);
-      
+      alert(file.name);
       formData.append("image",file);
 
       const options = {
@@ -92,7 +92,8 @@ class EditorComponent extends Component{
       // this part the image is inserted
       // by 'image' option below, you just have to put src(link) of img here. 
       
-    });
+    }
+    input.addEventListener('change',api,false);
 
   }
 

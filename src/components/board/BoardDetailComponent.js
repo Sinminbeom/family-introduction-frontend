@@ -11,6 +11,7 @@ class BoardDetailComponent extends Component {
         this.state = {
             title: '',
             contents: '',
+            seq: 0
         }
 
        
@@ -24,12 +25,17 @@ class BoardDetailComponent extends Component {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const boardseq = params.get('boardseq');
-
-        fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
-        ).then(res => res.json()).then((response) => {
-            this.setState({ title: response[0].boardtitle});
-            this.setState({ contents: response[0].boardcontent});
-        });
+        if (boardseq != null)
+        {
+            console.log(boardseq);
+            fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
+            ).then(res => res.json()).then((response) => {
+                this.setState({ title: response[0].boardtitle});
+                this.setState({ contents: response[0].boardcontent});
+                this.setState({ seq: boardseq});
+            });
+        }
+ 
 
     }
 
@@ -47,6 +53,7 @@ class BoardDetailComponent extends Component {
         var board = new FormData();
         board.append('boardtitle',this.state.title);
         board.append('boardcontent',this.state.contents);
+        board.append('boardseq',this.state.seq);
 
         try {
             fetch('http://49.168.71.214:8000/BoardSave.php',{ 
