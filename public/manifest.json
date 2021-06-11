@@ -1,5 +1,5 @@
 {
-  "short_name": "minbeom",
+  "short_name": "달콩이",
   "name": "Create React App Sample",
   "icons": [
     {
@@ -8,18 +8,18 @@
       "type": "image/x-icon"
     },
     {
-      "src": "icon.png",
+      "src": "icon192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icon.png",
+      "src": "icon512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
+  "start_url": "../minbeom",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
