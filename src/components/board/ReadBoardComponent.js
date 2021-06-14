@@ -11,6 +11,7 @@ class ReadBoardComponent extends Component {
         this.state = {
             title: '',
             contents: '',
+            seq:0
         }
 
         
@@ -23,6 +24,7 @@ class ReadBoardComponent extends Component {
 
         fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
         ).then(res => res.json()).then((response) => {
+            this.setState({ seq: boardseq});
             this.setState({ title: response[0].boardtitle});
             this.setState({ contents: response[0].boardcontent});
         });
@@ -35,9 +37,32 @@ class ReadBoardComponent extends Component {
         this.props.history.push('/board-detail?boardseq='+boardseq);
     }
 
+    deleteBoard = (event) => {
+        event.preventDefault();
+
+        var board = new FormData();
+        board.append('boardseq',this.state.seq);
+
+        try {
+            fetch('http://49.168.71.214:8000/BoardDelete.php',{ 
+              method: 'POST',
+              headers:{
+              },
+              body: board
+          }).then(res => res.json()).then(response => {
+            this.props.history.push('/board');
+            
+        });
+        } catch (err) {
+            return console.error('err',err);
+
+        }
+    }
+
     onListClick = (event) =>{
             this.props.history.push('/board');
     }
+
     render() {
         return (
             <Fragment>
@@ -48,7 +73,8 @@ class ReadBoardComponent extends Component {
                     <div>{ReactHtmlParser(this.state.contents)}</div>
                     <div>
                         <Button onClick={this.onUpdateClick}>수정</Button>
-                        <Button onClick={this.onListClick}>목록</Button>
+                        <Button onClick={this.deleteBoard} style={{marginLeft:"10px"}}>삭제</Button>
+                        <Button onClick={this.onListClick} style={{marginLeft:"10px"}}>목록</Button>
                     </div>
                 </div>
                 
