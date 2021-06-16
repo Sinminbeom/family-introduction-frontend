@@ -6,8 +6,12 @@ import ImageResize from 'quill-image-resize-module-react';  // import as default
 import QuillImageDropAndPaste from "./ImageDropAndPaste";
 import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
 import { Fragment } from 'react';
+import * as Emoji from "quill-emoji";
+import "quill-emoji/dist/quill-emoji.css";
+
 Quill.register('modules/imageResize', ImageResize);
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
+Quill.register('modules/quill-emoji', Emoji);
 
 
 
@@ -37,11 +41,16 @@ class EditorComponent extends Component{
         ['link', 'image'],
         [{ 'align': [] }, { 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         ['clean'],
+        ['emoji'],
       ],
       handlers: {
         image: this.imageHandler,
+        emoji: function () {}
       },
     },
+    "emoji-toolbar": true,
+    "emoji-textarea": true,
+    "emoji-shortname": true,
     imageResize: {
       handleStyles: {
         backgroundColor: 'black',
@@ -50,6 +59,7 @@ class EditorComponent extends Component{
       },
       modules: ['Resize', 'DisplaySize', 'Toolbar'],
     },
+
   }
   
   imageHandler()  {

@@ -20,7 +20,7 @@ module.exports = {                                      // moduel export (옛날
     },
     plugins: [
         new HtmlWebpackPlugin({
-            'window.Quill': 'quill'
+            'window.Quill': 'quill/dist/quill.js',
             //template: './src/index.html'                // 생성한 템플릿 파일
         })
     ],
