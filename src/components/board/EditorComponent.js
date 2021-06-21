@@ -1,35 +1,38 @@
 import base64 from 'base-64';
-import React, { Component, useMemo } from 'react';
+import React, { Component, useMemo, Fragment} from 'react';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';  // import as default
 import QuillImageDropAndPaste from "./ImageDropAndPaste";
 import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
-import { Fragment } from 'react';
-import * as Emoji from "quill-emoji";
-import "quill-emoji/dist/quill-emoji.css";
+import quillEmoji from "react-quill-emoji";
+import "react-quill-emoji/dist/quill-emoji.css";
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
-Quill.register('modules/quill-emoji', Emoji);
-
-
-
+Quill.register(
+  {
+    "formats/emoji": quillEmoji.EmojiBlot,
+    "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+    "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+    "modules/emoji-shortname": quillEmoji.ShortNameEmoji
+  },
+  true
+);
 
 class EditorComponent extends Component{
   constructor(props) {
     super(props);
-
   }
-
+  /* emoji 패키지를 설치하니까 formats에서 오류 발생으로 잠시 주석처리
   formats = [
-        //'font',
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list', 'bullet', 'indent',
-        'link', 'image',
-        'align', 'color', 'background',        
-  ]
+    //'font',
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+    'align', 'color', 'background',        
+  ]*/
   modules = { 
     imageDropAndPaste: { handler: this.imageHandler1  },
     toolbar:{
@@ -45,12 +48,9 @@ class EditorComponent extends Component{
       ],
       handlers: {
         image: this.imageHandler,
-        emoji: function () {}
       },
     },
-    "emoji-toolbar": true,
-    "emoji-textarea": true,
-    "emoji-shortname": true,
+    "emoji-toolbar":true,
     imageResize: {
       handleStyles: {
         backgroundColor: 'black',
@@ -63,7 +63,6 @@ class EditorComponent extends Component{
   }
   
   imageHandler()  {
-    
     const range =  this.quill.getSelection();
     const quill = this.quill;
     var formData = new FormData();
@@ -136,10 +135,8 @@ class EditorComponent extends Component{
 
   onQuillChange = (content, delta, source, editor) =>{
     this.props.onChange(editor.getHTML());
-    
-    console.log(editor.getHTML());
   }
-
+  
     render(){
         // const { value, onChange } = this.props;
         
@@ -150,7 +147,7 @@ class EditorComponent extends Component{
                               style={{height: "600px"}} 
                               theme="snow" 
                               modules={this.modules} 
-                              formats={this.formats} 
+                              // formats={formats} 
                               value={this.props.value || ''} 
                               onChange={this.onQuillChange}
                         />
@@ -160,7 +157,7 @@ class EditorComponent extends Component{
                               style={{height: "350px"}} 
                               theme="snow" 
                               modules={this.modules} 
-                              formats={this.formats} 
+                              // formats={formats} 
                               value={this.props.value || ''} 
                               onChange={this.onQuillChange}
                         />

@@ -75,11 +75,7 @@ class BoardDetailComponent extends Component {
     cancel() {
         this.props.history.push('/board');
     }
-
-
     
-
-
     render() {
         return (
   

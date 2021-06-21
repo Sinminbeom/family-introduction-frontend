@@ -27,6 +27,7 @@ class ReadBoardComponent extends Component {
             this.setState({ seq: boardseq});
             this.setState({ title: response[0].boardtitle});
             this.setState({ contents: response[0].boardcontent});
+            console.log(this.state.contents);
         });
     }
 
