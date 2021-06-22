@@ -7,6 +7,7 @@ import QuillImageDropAndPaste from "./ImageDropAndPaste";
 import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
 import quillEmoji from "react-quill-emoji";
 import "react-quill-emoji/dist/quill-emoji.css";
+import {ServiceComponent} from '../service/ServiceComponent';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
@@ -84,7 +85,7 @@ class EditorComponent extends Component{
         method: 'POST',
         body: formData,
       };
-  
+      
       try {
         fetch('http://49.168.71.214:8000/ImageUpload.php', options)
         .then(res => res.json())
