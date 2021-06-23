@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import Editor from './EditorComponent';
 import './BoardDetailComponent.css';
-import { Fragment } from 'react';
-
 
 class BoardDetailComponent extends Component {
     constructor(props) {

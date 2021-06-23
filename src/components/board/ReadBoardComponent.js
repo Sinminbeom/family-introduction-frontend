@@ -2,6 +2,7 @@ import React, { Component,Fragment } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import ReactHtmlParser from 'react-html-parser';
 import './ReadBoardComponent.css';
+import Commment from './CommentComponent';
 
 class ReadBoardComponent extends Component {
     constructor(props) {
@@ -76,6 +77,9 @@ class ReadBoardComponent extends Component {
                         <Button onClick={this.onUpdateClick}>수정</Button>
                         <Button onClick={this.deleteBoard} style={{marginLeft:"10px"}}>삭제</Button>
                         <Button onClick={this.onListClick} style={{marginLeft:"10px"}}>목록</Button>
+                    </div>
+                    <div>
+                        <Commment/>
                     </div>
                 </div>
                 

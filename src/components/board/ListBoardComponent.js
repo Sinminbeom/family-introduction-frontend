@@ -58,12 +58,12 @@ class ListBoardComponent extends Component {
                     <Table className="board-table">
                         <thead>
                             <tr>
-                                <th>글 번호</th>
-                                <th>타이틀 </th>
-                                <th>작성일 </th>
-                                <th>갱신일 </th>
-                                <th>좋아요수</th>
-                                <th>조회수</th>
+                                <th>No</th>
+                                <th>타이틀</th>
+                                <th>작성일</th>
+                                <th>갱신일</th>
+                                <th>좋아요</th>
+                                <th>조회</th>
                             </tr>
                         </thead>
                         <tbody>
