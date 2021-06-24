@@ -2,7 +2,7 @@ import React, { Component,Fragment } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
 import ReactHtmlParser from 'react-html-parser';
 import './ReadBoardComponent.css';
-import Commment from './CommentComponent';
+import Commment from './Comment';
 
 class ReadBoardComponent extends Component {
     constructor(props) {
@@ -79,7 +79,7 @@ class ReadBoardComponent extends Component {
                         <Button onClick={this.onListClick} style={{marginLeft:"10px"}}>목록</Button>
                     </div>
                     <div>
-                        <Commment/>
+                        <Comment postId={videoId} commentList={Comments} refreshFunction={refreshFunction} />
                     </div>
                 </div>
                 
