@@ -24,6 +24,7 @@ Quill.register(
 class EditorComponent extends Component{
   constructor(props) {
     super(props);
+
   }
   /* emoji 패키지를 설치하니까 formats에서 오류 발생으로 잠시 주석처리
   formats = [
@@ -62,12 +63,41 @@ class EditorComponent extends Component{
     },
 
   }
+
+  GetFileAttribute(file) {
+    var reader = new FileReader(); // CREATE AN NEW INSTANCE.
+    var check = false;
+    reader.onload = function (e) {
+        var img = new Image();      
+        img.src = e.target.result;
+
+        img.onload = function () {
+            var w = this.width;
+            var h = this.height;
+            if(w > 300){
+              check = true;
+            }
+            else{
+              check = false;
+            }
+            console.log(
+                   'Name: ' + file.name + '\n' +
+                   'File Extension: ' + file.fileExtension + '\n' +
+                   'Size: ' + Math.round((file.size / 1024)) + 'KB \n' +
+                   'Width: ' + w + '\n' +
+                   'Height: ' + h + '\n' +
+                   'Type: ' + file.type + '\n' +
+                   'Last Modified: ' + file.lastModifiedDate );
+        }
+    };
+    reader.readAsDataURL(file);
+    // return check;
+  };
   
   imageHandler()  {
     const range =  this.quill.getSelection();
     const quill = this.quill;
     var formData = new FormData();
-
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -78,30 +108,34 @@ class EditorComponent extends Component{
       const file = input.files[0];
       
       console.log('User trying to uplaod this:', file);
-      alert(file.name);
+
       formData.append("image",file);
 
       const options = {
         method: 'POST',
         body: formData,
       };
-      
+
       try {
         fetch('http://49.168.71.214:8000/ImageUpload.php', options)
         .then(res => res.json())
         .then(response => {
               const link = response["url"];
-              quill.insertEmbed(range.index, 'image', link); 
+              quill.insertEmbed(range.index, 'image', link);
+              
+              if(isMobile){
+                quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
+              }
           });
       }
       catch(err)
       {
         return console.error('err',err);
       }
-      // const link = 'http://192.168.68.128/minbeom.jpg';
-      // this part the image is inserted
-      // by 'image' option below, you just have to put src(link) of img here. 
-      
+      /*const link = 'http://192.168.68.128/minbeom.jpg';
+      this part the image is inserted
+      by 'image' option below, you just have to put src(link) of img here. */
+
     }
     input.addEventListener('change',api,false);
 
