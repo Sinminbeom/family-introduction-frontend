@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 // import { useSelector } from 'react-redux';
+import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment';
 
 function Comment(props) {
   const videoId = props.postId;
@@ -35,13 +37,22 @@ function Comment(props) {
       {props.commentList &&
         props.commentList.map(
           (comment, index) =>
-            !comment.responseTo && (
-              <SingleComment
-                refreshFunction={props.refreshFunction}
-                comment={comment}
-                postId={props.postId}
-                key={index}
-              />
+            !comment.responseTo && ( //대댓글은 우선 숨기겠다는 의미
+              <React.Fragment>
+                <SingleComment
+                  refreshFunction={props.refreshFunction}
+                  comment={comment}
+                  postSeq={props.postSeq}
+                  key={index}
+                />
+                <ReplyComment
+                  refreshFunction={props.refreshFunction}
+                  commentList={props.commentList}
+                  parentCommentId={comment._id}
+                  postSeq={props.postSeq}
+                  key={index}
+                />
+              </React.Fragment>
             )
         )}
       {/* Root Comment Form */}
