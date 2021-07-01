@@ -48,6 +48,15 @@ class BoardDetailComponent extends Component {
         event.preventDefault();
 
         var board = new FormData();
+
+        if(!this.state.title){
+            return alert('제목을 입력해주세요.');
+        }
+      
+        if(!this.state.contents){
+            return alert('내용을 입력해주세요.'); 
+        }
+
         board.append('boardtitle',this.state.title);
         board.append('boardcontent',this.state.contents);
         board.append('boardseq',this.state.seq);

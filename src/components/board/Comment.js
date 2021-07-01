@@ -1,19 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
+import { Form } from 'react-bootstrap';
+import { ServiceComponent } from '../service/ServiceComponent';
 
 function Comment(props) {
   const videoId = props.postId;
-  const [commentValue, setcommentValue] = useState('');
+  const [CommentValue, setCommentValue] = useState('');
+  const [NickName, setNickName] = useState('');
 //   const user = useSelector((state) => state.user);
 
   const handleChange = (event) => {
-    setcommentValue(event.currentTarget.value);
+    setCommentValue(event.currentTarget.value);
   };
 
+  const NickNamehandleChange = (event) => {
+    setNickName(event.currentTarget.value);
+  };
+
+  const CallBack = (result) => {
+    if(result.result){
+      setCommentValue(''); //저장후 빈칸으로 만들기 위해
+    }
+    else{
+      alert(result.message);
+    }
+  }
+  
   const onsubmit = (event) => {
     event.preventDefault();
+
+    var formData = new FormData();
+    
+    if(!NickName){
+      return alert('닉네임을 입력해주세요.');
+    }
+
+    if(!CommentValue){
+      return alert('댓글 내용을 입력해주세요.');
+    }
+
+    formData.append('BoardSeq',props.postSeq);
+    formData.append('Comment',CommentValue);
+    formData.append('NickName',NickName);
+    
+    ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
+
     // const variables = {
     //   content: commentValue,
     //   writer: user.userData._id,
@@ -26,7 +59,9 @@ function Comment(props) {
     //     alert('커멘트를 저장하지 못했습니다.');
     //   }
     // });
+
   };
+
   return (
     <div>
       <br />
@@ -37,7 +72,7 @@ function Comment(props) {
       {props.commentList &&
         props.commentList.map(
           (comment, index) =>
-            !comment.responseTo && ( //대댓글은 우선 숨기겠다는 의미
+            !comment.UpCommentSeq && ( //대댓글은 우선 숨기겠다는 의미
               <React.Fragment>
                 <SingleComment
                   refreshFunction={props.refreshFunction}
@@ -48,20 +83,22 @@ function Comment(props) {
                 <ReplyComment
                   refreshFunction={props.refreshFunction}
                   commentList={props.commentList}
-                  parentCommentId={comment._id}
+                  parentCommentId={comment.CommentSeq}
                   postSeq={props.postSeq}
                   key={index}
                 />
               </React.Fragment>
+              
             )
         )}
       {/* Root Comment Form */}
 
       <form style={{ display: 'flex' }} onSubmit={onsubmit}>
+        <Form.Control style={{ width: '20%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
         <textarea
           style={{ width: '100%', borderRadius: '5px' }}
           onChange={handleChange}
-          value={commentValue}
+          value={CommentValue}
           placeholder="코멘트를 작성해 주세요"
         />
         <br />

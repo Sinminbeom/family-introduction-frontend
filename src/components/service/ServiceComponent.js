@@ -3,11 +3,22 @@ export async function ServiceComponent(path, data, callback) {
     await fetch(path
         , {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+            headers: {  },
             body: data
         })
         .then(res => res.json())
-        .then(result => { callback(result) });
+        .then(result => { callback(result);});
 }
 
-export default {ServiceComponent};
+//get전송
+export async function GetServiceComponent(path, callback) {
+    await fetch(path
+        , {
+            method: 'POST',
+            headers: {  },
+        })
+        .then(res => res.json())
+        .then(result => { callback(result); });
+}
+
+export default {ServiceComponent, GetServiceComponent};

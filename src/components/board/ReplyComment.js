@@ -7,27 +7,28 @@ function ReplyComment(props) {
   useEffect(() => {
     let commentNumber = 0;
     props.commentList.map((comment, index) => {
-      if (comment.responseTo === props.parentCommentId) {
+      if (comment.UpCommentSeq === props.parentCommentId) {
         commentNumber++;
       }
+      
     });
     setChildCommentNumber(commentNumber);
   }, [props.commentList]); //commentList가 바뀔때마다 실행이될 수 있도록해야됨
   const renderReplyComment = (parentCommentId) =>
     props.commentList.map((comment, index) => (
       <React.Fragment key={index}>
-        {comment.responseTo === parentCommentId && (
+        {comment.UpCommentSeq === parentCommentId && (
           <div style={{ width: '80%', marginLeft: '40px' }}>
             <SingleComment
-              refreshFunction={props.refreshFunction}
+              // refreshFunction={props.refreshFunction}
               comment={comment}
               postSeq={props.postSeq}
             />
             <ReplyComment
-              refreshFunction={props.refreshFunction}
+              // refreshFunction={props.refreshFunction}
               commentList={props.commentList}
               postSeq={props.postSeq}
-              parentCommentId={comment._id}
+              parentCommentId={comment.CommentSeq}
             />
           </div>
         )}

@@ -1,24 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Comment, Avatar, Button, Input } from 'antd';
+import "antd/dist/antd.css";
 import { ServiceComponent } from '../service/ServiceComponent';
+import { Form } from 'react-bootstrap';
+
 const { TextArea } = Input;
 
 function SingleComment(props) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState('');
+  const [NickName, setNickName] = useState('');
 
   // const user = useSelector((state) => state.user);
-  CallBack = (result) => {
-    setCommentValue(''); //저장후 빈칸으로 만들기 위해
-    console.log(result);
+
+  const CallBack = (response) => {
+    if(response.result){
+      setCommentValue(''); //저장후 빈칸으로 만들기 위해
+      // props.refreshFunction(response);
+    }
+    else{
+      alert(response.message);
+    }
   }
+
   const onsubmit = (event) => {
     event.preventDefault();
-    var formData = FormData();
+
+    if(!NickName){
+      return alert('닉네임을 입력해주세요.');
+    }
+
+    if(!CommentValue){
+      return alert('댓글 내용을 입력해주세요.'); 
+    }
+
+    var formData = new FormData();
 
     formData.append('BoardSeq',props.postSeq);
     formData.append('Comment',CommentValue);
-
+    formData.append('UpCommentSeq',props.comment.CommentSeq);
+    formData.append('NickName',NickName);
+    
     ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
     // const variables = {
@@ -40,24 +62,33 @@ function SingleComment(props) {
   const onClickReplyOpen = () => {
     setOpenReply(!OpenReply);
   };
+
   const onHandleChange = (event) => {
     setCommentValue(event.currentTarget.value);
   };
+
+  const NickNamehandleChange = (event) => {
+    setNickName(event.currentTarget.value);
+  };
+
   const actions = [
     <span onClick={onClickReplyOpen} key="comment-basic-reply-to">
       Reply to
     </span>,
   ];
+
   return (
     <div>
       <Comment
         actions={actions}
-        author={props.comment.writer.name}
-        avatar={<Avatar src={props.comment.writer.image} alt />}
-        content={<p>{props.comment.content}</p>}
+        author={props.comment.NickName}
+        // avatar={<Avatar src={props.comment.writer.image} alt />}
+        avatar={<Avatar />}
+        content={<p>{props.comment.Comment}</p>}
       />
       {OpenReply && ( //openReply값이 true일때만 대댓글창을 보이게만듬
         <form style={{ display: 'flex' }} onSubmit={onsubmit}>
+          <Form.Control style={{ width: '20%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
           <textarea
             style={{ width: '100%', borderRadius: '5px' }}
             onChange={onHandleChange}

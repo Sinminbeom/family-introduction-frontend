@@ -3,19 +3,24 @@ import { Button, Form, FormControl } from 'react-bootstrap';
 import ReactHtmlParser from 'react-html-parser';
 import './ReadBoardComponent.css';
 import Comment from './Comment';
+import { ServiceComponent, GetServiceComponent} from '../service/ServiceComponent';
 
 class ReadBoardComponent extends Component {
     constructor(props) {
         super(props);
 
-        
         this.state = {
             title: '',
             contents: '',
-            seq:0
+            seq:0,
+            comments: [],
         }
+        this.CallBack = this.CallBack.bind(this);
+        this.refreshFunction = this.refreshFunction.bind(this);
+    }
 
-        
+    CallBack(result){
+        this.setState({ comments: result});
     }
 
     componentDidMount(){
@@ -28,8 +33,10 @@ class ReadBoardComponent extends Component {
             this.setState({ seq: boardseq});
             this.setState({ title: response[0].boardtitle});
             this.setState({ contents: response[0].boardcontent});
-            console.log(this.state.contents);
         });
+
+        GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' +new URLSearchParams({ boardseq: boardseq }),this.CallBack);
+        
     }
 
     onUpdateClick = (event) =>{
@@ -65,6 +72,12 @@ class ReadBoardComponent extends Component {
             this.props.history.push('/board');
     }
 
+    refreshFunction(newComment) {
+        //부모의 Comments state값을 업데이트하기위한 함수
+        this.setState({ comments: this.state.Comments.concat(newComment)}); //자식들한테 값을 전달받아 Comments값 업데이트
+        // setComments(Comments.concat(newComment)); 
+    };
+
     render() {
         return (
             <Fragment>
@@ -80,7 +93,7 @@ class ReadBoardComponent extends Component {
                     </div>
                     <div>
                         {/* <Comment postId={videoId} commentList={Comments} refreshFunction={refreshFunction} /> */}
-                        <Comment  postSeq={this.state.seq}/>
+                        <Comment  postSeq={this.state.seq} commentList={this.state.comments} refreshFunction={this.refreshFunction}/>
                     </div>
                 </div>
                 
