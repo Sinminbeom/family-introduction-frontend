@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Comment, Avatar, Button, Input } from 'antd';
+import { Comment, Avatar, Input } from 'antd';
 import "antd/dist/antd.css";
 import { ServiceComponent } from '../service/ServiceComponent';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 const { TextArea } = Input;
 
@@ -87,19 +87,19 @@ function SingleComment(props) {
         content={<p>{props.comment.Comment}</p>}
       />
       {OpenReply && ( //openReply값이 true일때만 대댓글창을 보이게만듬
-        <form style={{ display: 'flex' }} onSubmit={onsubmit}>
-          <Form.Control style={{ width: '20%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
+        <Form style={{ display: 'flex' }} onSubmit={onsubmit}>
+          <Form.Control style={{ width: '35%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
           <textarea
             style={{ width: '100%', borderRadius: '5px' }}
             onChange={onHandleChange}
             value={CommentValue}
-            placeholder="코멘트를 작성해 주세요"
+            placeholder="내용을 작성해 주세요"
           />
           <br />
-          <button style={{ width: '20%', height: '52px' }} onClick={onsubmit}>
-            Submit
-          </button>
-        </form>
+          <Button style={{ width: '30%', height: '52px' }} onClick={onsubmit}>
+            등록
+          </Button>
+        </Form>
       )}
     </div>
   );

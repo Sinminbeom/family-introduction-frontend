@@ -7,6 +7,7 @@ import BoardDetailComponent from './components/board/BoardDetailComponent';
 import HeaderComponent from './components/header/HeaderComponent';
 import CalendarComponent from './components/calendar/CalendarComponent';
 import AccountBookComponent from './components/account/AccountBookComponent';
+// import SignUpCommonent from './components/signup/SignUpCommonent';
 
 class App extends Component{
     constructor(props){
@@ -29,6 +30,7 @@ class App extends Component{
                                 <Route path = "/board-read" component = {ReadBoardComponent}></Route>
                                 <Route path = "/calendar" component = {CalendarComponent}></Route>
                                 <Route path = "/accountbook" component = {AccountBookComponent}></Route>
+                                {/* <Route path = "/signup" component = {AccountBookComponent}></Route> */}
                             </Switch>
                         </BrowserRouter>
                     </div>

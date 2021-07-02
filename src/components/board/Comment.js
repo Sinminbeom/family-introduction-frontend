@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { ServiceComponent } from '../service/ServiceComponent';
 
 function Comment(props) {
@@ -94,17 +94,17 @@ function Comment(props) {
       {/* Root Comment Form */}
 
       <form style={{ display: 'flex' }} onSubmit={onsubmit}>
-        <Form.Control style={{ width: '20%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
+        <Form.Control style={{ width: '35%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
         <textarea
           style={{ width: '100%', borderRadius: '5px' }}
           onChange={handleChange}
           value={CommentValue}
-          placeholder="코멘트를 작성해 주세요"
+          placeholder="내용을 작성해 주세요"
         />
         <br />
-        <button style={{ width: '20%', height: '52px' }} onClick={onsubmit}>
-          Submit
-        </button>
+        <Button style={{ width: '30%', height: '52px' }} onClick={onsubmit}>
+          등록
+        </Button>
       </form>
     </div>
   );
