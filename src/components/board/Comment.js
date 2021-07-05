@@ -47,19 +47,6 @@ function Comment(props) {
     
     ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
-    // const variables = {
-    //   content: commentValue,
-    //   writer: user.userData._id,
-    //   postId: videoId,
-    // };
-    // Axios.post('/api/comment/saveComment', variables).then((response) => {
-    //   if (response.data.success) {
-    //     console.log(response.data.result);
-    //   } else {
-    //     alert('커멘트를 저장하지 못했습니다.');
-    //   }
-    // });
-
   };
 
   return (
