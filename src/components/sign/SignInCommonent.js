@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {Redirect} from "react-router";
 import { ServiceComponent } from '../service/ServiceComponent';
 
-const SignUpCommonent = () => {
+const SignInCommonent = () => {
 
     const [form] = Form.useForm();
     const [isValid, setIsValid] = useState(false);
@@ -69,17 +69,6 @@ const SignUpCommonent = () => {
                     <Input prefix={<UserOutlined className={"site-form-item-icon"} placeholder={"Username"}/>}/>
                 </Form.Item>
                 <Form.Item
-                    name={"email"}
-                    rules={
-                        [{
-                            type: "email",
-                            required: true,
-                            message: 'Please Input your Email'
-                        }]
-                    }>
-                    <Input prefix={<MailOutlined className={"site-form-item-icon"} placeholder={"Email"}/>}/>
-                </Form.Item>
-                <Form.Item
                     name={"password"}
                     rules={
                         [{
@@ -95,9 +84,9 @@ const SignUpCommonent = () => {
                 </Form.Item>
                 <Form.Item>
                     <Button type={"primary"} htmlType={"submit"} className={"login-form-button"}>
-                        register now!
+                        로그인
                     </Button>
-                    Or <Link to={"/signin"}>Log in</Link>
+                    Or <Link to={"/signup"}>회원가입</Link>
                 </Form.Item>
             </Form>
             <Route>
@@ -107,4 +96,4 @@ const SignUpCommonent = () => {
     )
 }
 
-export default SignUpCommonent;
+export default SignInCommonent;

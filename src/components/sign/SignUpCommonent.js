@@ -1,0 +1,118 @@
+import {Button, Form, Input} from "antd";
+import {LockOutlined, MailOutlined, UserOutlined} from "@ant-design/icons";
+import {Link, Route} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Redirect} from "react-router";
+import { ServiceComponent } from '../service/ServiceComponent';
+
+const SignUpCommonent = () => {
+
+    const [form] = Form.useForm();
+    const [isValid, setIsValid] = useState(false);
+    const [error, setError] = useState("");
+    const [isSuccess,setIsSuccess] = useState(false);
+
+    useEffect(() => {
+        if(isValid){
+            form.setFields([{
+                name: "email",
+                errors: [error],
+            }]);
+        }
+    }, [isValid,error]);
+
+    const CallBack = (result) => {
+        if(result.result){
+
+        }
+        else{
+          alert(result.message);
+        }
+      }
+
+    function onFinish(values) {
+        setIsValid(false);
+        setError("");
+
+        // if(!CommentValue){
+        //     return alert('댓글 내용을 입력해주세요.');
+        // }
+        console.log(values.email);
+        // var formData = new FormData();
+
+        // formData.append('name',props.postSeq);
+        // formData.append('password',CommentValue);
+        // formData.append('email',NickName);
+
+        // ServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
+        
+        // addUser(values).then(response=>{
+        //     if(response.status===400){
+        //         setIsValid(true);
+        //         setError(response.message)
+        //     }
+        //     if(response.status===200){
+        //         alert("등록성공")
+        //         console.log("등록성공.");
+        //         setIsSuccess(true);
+        //     }
+        // });
+    }
+    return(
+        <>
+            <Form form={form} name={"normal_login"}
+                  className={"login-form"}
+                  initialValues={{remember:true}}
+                  onFinish={onFinish}
+                  xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
+            >
+                <Form.Item
+                    name={"name"}
+                    rules={
+                        [{
+                            required: true,
+                            message: 'Please Input your Username'
+                        }]
+                    }>
+                    <Input prefix={<UserOutlined className={"site-form-item-icon"} placeholder={"Username"}/>}/>
+                </Form.Item>
+                <Form.Item
+                    name={"email"}
+                    rules={
+                        [{
+                            type: "email",
+                            required: true,
+                            message: 'Please Input your Email'
+                        }]
+                    }>
+                    <Input prefix={<MailOutlined className={"site-form-item-icon"} placeholder={"Email"}/>}/>
+                </Form.Item>
+                <Form.Item
+                    name={"password"}
+                    rules={
+                        [{
+                            required: true,
+                            messaeg: "please input your Password"
+                        }]
+                    }>
+                    <Input
+                        prefix={<LockOutlined className={"site-form-item-icon"}/>}
+                        type={"password"}
+                        placeholder={"Password"}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type={"primary"} htmlType={"submit"} className={"login-form-button"}>
+                        가입완료
+                    </Button>
+                    Or <Link to={"/signin"}>로그인</Link>
+                </Form.Item>
+            </Form>
+            <Route>
+                {isSuccess?<Redirect to="/signin" />:''}
+            </Route>
+        </>
+    )
+}
+
+export default SignUpCommonent;
