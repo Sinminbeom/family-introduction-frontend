@@ -171,7 +171,36 @@ class EditorComponent extends Component{
   onQuillChange = (content, delta, source, editor) =>{
     this.props.onChange(editor.getHTML());
   }
-  
+
+  componentDidMount(){
+    var script = document.createElement('script');
+    script.onload=this.handleClientLoad;
+    script.src="https://apis.google.com/js/api.js";
+    document.body.appendChild(script);
+  }
+  handleClientLoad = ()=>{
+    window.gapi.load('client:auth2', this.initClient);
+  }
+  initClient = () => {
+    try{
+      window.gapi.client.init({
+          'apiKey': "",
+          'clientId': "",
+          'scope': SCOPE,
+          'discoveryDocs': [discoveryUrl]
+        }).then(() => {
+          this.setState({
+            googleAuth: window.gapi.auth2.getAuthInstance()
+          })
+          this.state.googleAuth.isSignedIn.listen(this.updateSigninStatus);
+         document.getElementById('signin-btn').addEventListener('click', this.signInFunction);
+         document.getElementById('signout-btn').addEventListener('click', this.signOutFunction);
+
+      });
+    }catch(e){
+      console.log(e);
+    }
+  }
     render(){
         // const { value, onChange } = this.props;
         
