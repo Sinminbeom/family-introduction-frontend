@@ -52,12 +52,17 @@ module.exports = {                                      // moduel export (옛날
             }
         ]
     },
+    devServer: {
+        contentBase: './dist',
+        port: 3000,
+        historyApiFallback: true,
+    },
     plugins: [
         new HtmlWebpackPlugin({
             'window.Quill': 'quill/dist/quill.js',
             template: './src/index.html',                // 생성한 템플릿 파일
             templateParameters: { // 템플릿에 주입할 변수들 지정
-                env: process.env.NODE_ENV === 'development' ? '(개발중)' : '안ㄹㄹㅇㄹㅁㄹㅇㄴ녕'
+                env: process.env.NODE_ENV === 'development' ? '(개발중)' : ''
             }
         })
         
