@@ -38,7 +38,7 @@ module.exports = {                                      // moduel export (옛날
                         options: {
                             lessOptions: { // If you are using less-loader@5 please spread the lessOptions to options directly
                                 modifyVars: {
-                                    '@primary-color': '#1DA57A',
+                                    '@primary-color': '#e920d8',
                                     // '@primary-color': '#e920d8',
                                     // '@link-color': '#1DA57A',
                                     // '@border-radius-base': '2px',
@@ -53,9 +53,8 @@ module.exports = {                                      // moduel export (옛날
         ]
     },
     devServer: {
-        contentBase: './dist',
+        contentBase: path.join(__dirname, '/dist'),
         port: 3000,
-        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
