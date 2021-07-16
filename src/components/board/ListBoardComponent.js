@@ -102,6 +102,7 @@ import ReactDOM from 'react-dom';
 import { List, Avatar, Space,Button,Switch } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import './ListBoardComponent.less';
+import { GetServiceComponent } from '../service/ServiceComponent';
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
@@ -131,22 +132,31 @@ class ListBoardComponent extends Component{
             boardseq: '',
         }
     }
-
-    componentDidMount() {
-        try {
-            fetch('http://49.168.71.214:8000/BoardList.php',{ 
-              method: 'POST',
-              headers:{
-              }
-          }).then(res => res.json()).then((response) => {
-            this.setState({ boards: response});
-            console.log(response);
-        });
-        } catch (err) {
-            return console.error('err',err);
+    CallBack = (result) => {
+      this.setState({ boards: result});
+      var aboards = this.state.boards;
+      for(let i = 0; i < aboards.length; i++)
+      {
+        var m,
+        urls = [],
+         str = aboards[i]['boardcontent'],
+         
+        rex = /<img[^>]+src="?([^\s]+)" [^\s]+">/g;
+        while ( m = rex.exec( str ) ) {
+          urls.push( m[1] );
         }
+    
+        aboards[i]['thumbnail'] = urls[0];
+      }
+      console.log( aboards ); 
 
     }
+
+    componentDidMount() {
+      GetServiceComponent('http://49.168.71.214:8000/BoardList.php',this.CallBack);
+
+    }
+    
     render(){
         return(
           <>
@@ -157,7 +167,7 @@ class ListBoardComponent extends Component{
               onChange: page => {
                 console.log(page);
               },
-              pageSize: 3,
+              pageSize: 5,
             }}
             dataSource={this.state.boards}
             footer={
@@ -176,8 +186,9 @@ class ListBoardComponent extends Component{
                 extra={
                   <img
                     width={272}
+                    height={168}
                     alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                    src={item.thumbnail}
                   />
                 }
               >
