@@ -193,11 +193,11 @@ class ListBoardComponent extends Component{
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.avatar} />}
+                  avatar={<Avatar src={item.Image} />}
                   title={<a href='/minbeom'>{item.boardtitle}</a>}
                   description={item.description}
                 />
-                {item.content}
+                {item.boardcontent}
               </List.Item>
             )}
           />
