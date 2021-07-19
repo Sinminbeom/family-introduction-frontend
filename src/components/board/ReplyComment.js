@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SingleComment from './SingleComment';
+import './antdCustomize.less';
 
 function ReplyComment(props) {
   const [ChildCommentNumber, setChildCommentNumber] = useState(0);

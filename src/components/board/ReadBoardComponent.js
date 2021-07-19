@@ -1,9 +1,10 @@
 import React, { Component,Fragment } from 'react';
-import { Button, Form, FormControl } from 'react-bootstrap';
+
 import ReactHtmlParser from 'react-html-parser';
 import './ReadBoardComponent.css';
 import Comment from './Comment';
 import { ServiceComponent, GetServiceComponent} from '../service/ServiceComponent';
+import { List, Avatar, Space,Button,Switch } from 'antd';
 
 class ReadBoardComponent extends Component {
     constructor(props) {
@@ -83,7 +84,7 @@ class ReadBoardComponent extends Component {
             <Fragment>
                 <div className='ReadBoard'>
                     <div className='ReadHeader'>
-                        <Form.Label>{this.state.title}</Form.Label>
+                        <span className="ant-form-text">{this.state.title}</span>
                     </div>
                     <div>{ReactHtmlParser(this.state.contents)}</div>
                     <div>

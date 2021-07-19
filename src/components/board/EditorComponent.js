@@ -178,9 +178,11 @@ class EditorComponent extends Component{
     script.src="https://apis.google.com/js/api.js";
     document.body.appendChild(script);
   }
+
   handleClientLoad = ()=>{
     window.gapi.load('client:auth2', this.initClient);
   }
+  
   initClient = () => {
     try{
       window.gapi.client.init({

@@ -2,22 +2,19 @@ import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
-import { Form, Button } from 'react-bootstrap';
 import { ServiceComponent } from '../service/ServiceComponent';
+import { Button, Input } from 'antd';
+import './antdCustomize.less';
 
 function Comment(props) {
   const videoId = props.postId;
   const [CommentValue, setCommentValue] = useState('');
-  const [NickName, setNickName] = useState('');
 //   const user = useSelector((state) => state.user);
 
   const handleChange = (event) => {
     setCommentValue(event.currentTarget.value);
   };
 
-  const NickNamehandleChange = (event) => {
-    setNickName(event.currentTarget.value);
-  };
 
   const CallBack = (result) => {
     if(result.result){
@@ -33,17 +30,12 @@ function Comment(props) {
 
     var formData = new FormData();
     
-    if(!NickName){
-      return alert('닉네임을 입력해주세요.');
-    }
-
     if(!CommentValue){
       return alert('댓글 내용을 입력해주세요.');
     }
 
     formData.append('BoardSeq',props.postSeq);
     formData.append('Comment',CommentValue);
-    formData.append('NickName',NickName);
     
     ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
@@ -81,8 +73,7 @@ function Comment(props) {
       {/* Root Comment Form */}
 
       <form style={{ display: 'flex' }} onSubmit={onsubmit}>
-        <Form.Control style={{ width: '35%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
-        <textarea
+        <Input
           style={{ width: '100%', borderRadius: '5px' }}
           onChange={handleChange}
           value={CommentValue}

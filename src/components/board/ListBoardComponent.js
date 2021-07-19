@@ -101,21 +101,8 @@ import ReactDOM from 'react-dom';
 // import './index.css';
 import { List, Avatar, Space,Button,Switch } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
-import './ListBoardComponent.less';
+import './antdCustomize.less';
 import { GetServiceComponent } from '../service/ServiceComponent';
-
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://ant.design',
-    title: `ant1212121 design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -134,21 +121,33 @@ class ListBoardComponent extends Component{
     }
     CallBack = (result) => {
       this.setState({ boards: result});
+
       var aboards = this.state.boards;
+
       for(let i = 0; i < aboards.length; i++)
       {
-        var m,
+        var a,
         urls = [],
-         str = aboards[i]['boardcontent'],
-         
+        str = aboards[i]['boardcontent'],      
         rex = /<img[^>]+src="?([^\s]+)" [^\s]+">/g;
-        while ( m = rex.exec( str ) ) {
-          urls.push( m[1] );
+
+        while ( a = rex.exec( str ) ) {
+          urls.push( a[1] );
         }
     
         aboards[i]['thumbnail'] = urls[0];
+
+        var desc = '작성일 : ' + aboards[i]['createdtime'] + '  작성자 : ' + aboards[i]['UserName'];
+        aboards[i]['description'] = desc;
+        
+        
+        var str = aboards[i]['boardcontent'];
+        var target = str.replace(/<[^>]+>/g, '');
+
+        aboards[i]['boardcontent'] = target.substring(0,100) + '.....';
       }
-      console.log( aboards ); 
+      this.setState({ boards: aboards});
+      console.log(this.state.boards);
 
     }
 
@@ -156,6 +155,7 @@ class ListBoardComponent extends Component{
       GetServiceComponent('http://49.168.71.214:8000/BoardList.php',this.CallBack);
 
     }
+
     
     render(){
         return(
@@ -172,7 +172,7 @@ class ListBoardComponent extends Component{
             dataSource={this.state.boards}
             footer={
               <div>
-                <b>ant design</b> footer part
+                <b>사랑해</b> 달콩아
               </div>
             }
             renderItem={item => (
@@ -187,14 +187,15 @@ class ListBoardComponent extends Component{
                   <img
                     width={272}
                     height={168}
-                    alt="logo"
                     src={item.thumbnail}
                   />
+                
                 }
+                onClick={this.onClick}
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.Image} />}
-                  title={<a href='/minbeom'>{item.boardtitle}</a>}
+                  title={<a href={'/board-read?boardseq='+item.boardseq}>{item.boardtitle}</a>}
                   description={item.description}
                 />
                 {item.boardcontent}

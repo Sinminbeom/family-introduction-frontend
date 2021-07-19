@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Comment, Avatar, Input } from 'antd';
-import "antd/dist/antd.css";
+import { Comment, Avatar, Input,Button } from 'antd';
 import { ServiceComponent } from '../service/ServiceComponent';
-import { Form, Button } from 'react-bootstrap';
+import './antdCustomize.less';
 
 const { TextArea } = Input;
 
 function SingleComment(props) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState('');
-  const [NickName, setNickName] = useState('');
 
   // const user = useSelector((state) => state.user);
 
@@ -26,10 +24,6 @@ function SingleComment(props) {
   const onsubmit = (event) => {
     event.preventDefault();
 
-    if(!NickName){
-      return alert('닉네임을 입력해주세요.');
-    }
-
     if(!CommentValue){
       return alert('댓글 내용을 입력해주세요.'); 
     }
@@ -39,7 +33,6 @@ function SingleComment(props) {
     formData.append('BoardSeq',props.postSeq);
     formData.append('Comment',CommentValue);
     formData.append('UpCommentSeq',props.comment.CommentSeq);
-    formData.append('NickName',NickName);
     
     ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
@@ -67,10 +60,6 @@ function SingleComment(props) {
     setCommentValue(event.currentTarget.value);
   };
 
-  const NickNamehandleChange = (event) => {
-    setNickName(event.currentTarget.value);
-  };
-
   const actions = [
     <span onClick={onClickReplyOpen} key="comment-basic-reply-to">
       Reply to
@@ -88,8 +77,7 @@ function SingleComment(props) {
       />
       {OpenReply && ( //openReply값이 true일때만 대댓글창을 보이게만듬
         <Form style={{ display: 'flex' }} onSubmit={onsubmit}>
-          <Form.Control style={{ width: '35%', height: '52px' }} type="text" class="form-control" placeholder="닉네임" onChange={NickNamehandleChange}/>
-          <textarea
+          <Input
             style={{ width: '100%', borderRadius: '5px' }}
             onChange={onHandleChange}
             value={CommentValue}
