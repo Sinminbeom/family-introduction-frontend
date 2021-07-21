@@ -7,6 +7,8 @@ module.exports = {                                      // moduel export (옛날
         path: path.join(__dirname, '/dist'),            //__dirname : 현재 디렉토리, dist 폴더에 모든 컴파일된 하나의 번들파일을 넣을 예정
         filename: 'index_bundle.js'
     },
+    mode: 'development',
+    //devtool: 'inline-source-map',
     module: {                                           // javascript 모듈을 생성할 규칙을 지정 (node_module을 제외한.js 파일을 babel-loader로 불러와 모듈을 생성
         rules: [
             {
