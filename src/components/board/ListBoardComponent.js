@@ -155,7 +155,9 @@ class ListBoardComponent extends Component{
       GetServiceComponent('http://49.168.71.214:8000/BoardList.php',this.CallBack);
 
     }
-
+    onclick(){
+      console.log('fdfdfd');
+    }
     
     render(){
         return(
@@ -191,7 +193,7 @@ class ListBoardComponent extends Component{
                   />
                 
                 }
-                onClick={this.onClick}
+                onClick={this.onclick}
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.Image} />}

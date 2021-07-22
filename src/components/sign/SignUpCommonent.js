@@ -24,9 +24,8 @@ const SignUpCommonent = () => {
 
     const CallBack = (result) => {
         if(result.result){
-            alert("회원가입 완료");
+            alert("회원가입이 완료되었습니다.");
             setIsSuccess(true);
-            this.props.history.push('/signin');
         }
         else{
             alert(result.message);
@@ -39,7 +38,6 @@ const SignUpCommonent = () => {
         setIsValid(false);
         setError("");
 
-        console.log(values);
         var formData = new FormData();
 
         formData.append('UserName',values.name);

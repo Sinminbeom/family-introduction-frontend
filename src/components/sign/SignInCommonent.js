@@ -1,7 +1,7 @@
 import {Button, Form, Input} from "antd";
 import {LockOutlined, MailOutlined, UserOutlined} from "@ant-design/icons";
 import {Link, Route} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Redirect} from "react-router";
 import { ServiceComponent } from '../service/ServiceComponent';
 
@@ -22,11 +22,13 @@ const SignInCommonent = () => {
     }, [isValid,error]);
 
     const CallBack = (result) => {
-        if(result.result){
-
+        if(result[0].STATE == 0){
+            setIsSuccess(true);
         }
         else{
-          alert(result.message);
+            alert(result[0].MESSAGE);
+            setError(result[0].MESSAGE);
+            setIsValid(true);
         }
       }
 
@@ -35,20 +37,11 @@ const SignInCommonent = () => {
         setError("");
 
         var formData = new FormData();
+        formData.append('UserName',values.name);
+        formData.append('Password',values.password);
+        ServiceComponent('http://49.168.71.214:8000/SignInGet.php',formData,CallBack);
 
-        ServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
         
-        // addUser(values).then(response=>{
-        //     if(response.status===400){
-        //         setIsValid(true);
-        //         setError(response.message)
-        //     }
-        //     if(response.status===200){
-        //         alert("등록성공")
-        //         console.log("등록성공.");
-        //         setIsSuccess(true);
-        //     }
-        // });
     }
     return(
         <>
@@ -66,7 +59,7 @@ const SignInCommonent = () => {
                             message: 'Please Input your Username'
                         }]
                     }>
-                    <Input prefix={<UserOutlined className={"site-form-item-icon"} placeholder={"Username"}/>}/>
+                    <Input prefix={<UserOutlined className={"site-form-item-icon"} />} placeholder={'이름(아이디)'}/>
                 </Form.Item>
                 <Form.Item
                     name={"password"}
@@ -79,7 +72,7 @@ const SignInCommonent = () => {
                     <Input
                         prefix={<LockOutlined className={"site-form-item-icon"}/>}
                         type={"password"}
-                        placeholder={"Password"}
+                        placeholder={"비밀번호"}
                     />
                 </Form.Item>
                 <Form.Item>
@@ -90,7 +83,7 @@ const SignInCommonent = () => {
                 </Form.Item>
             </Form>
             <Route>
-                {isSuccess?<Redirect to="/signin" />:''}
+                {isSuccess?<Redirect to="/board" />:''}
             </Route>
         </>
     )
