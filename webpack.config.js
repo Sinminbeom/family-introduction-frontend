@@ -5,10 +5,13 @@ module.exports = {                                      // moduel export (옛날
     entry: './src/index.js',                            // 리액트 파일이 시작하는 곳
     output: {                                           // bundled compiled 파일
         path: path.join(__dirname, '/dist'),            //__dirname : 현재 디렉토리, dist 폴더에 모든 컴파일된 하나의 번들파일을 넣을 예정
-        filename: 'index_bundle.js'
+        filename: 'index_bundle.js',
+        publicPath: '../static'                         //index.html에 <script> 생성될떄 src 설정
+        
     },
-    mode: 'development',
-    //devtool: 'inline-source-map',
+    
+    mode: 'development', //웹팩 디버깅할때 이것을 써야 중단점이 먹히고 디버깅이 먹힌다.
+    // devtool: 'inline-source-map',
     module: {                                           // javascript 모듈을 생성할 규칙을 지정 (node_module을 제외한.js 파일을 babel-loader로 불러와 모듈을 생성
         rules: [
             {
@@ -55,17 +58,19 @@ module.exports = {                                      // moduel export (옛날
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, '/dist'),
+        contentBase: path.join(__dirname, '/src'),
         port: 3000,
         historyApiFallback: true
     },
+    
     plugins: [
         new HtmlWebpackPlugin({
             'window.Quill': 'quill/dist/quill.js',
             template: './src/index.html',                // 생성한 템플릿 파일
             templateParameters: { // 템플릿에 주입할 변수들 지정
                 env: process.env.NODE_ENV === 'development' ? '(개발중)' : ''
-            }
+            },
+            
         })
         
         
