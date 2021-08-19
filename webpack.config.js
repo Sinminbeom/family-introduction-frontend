@@ -58,7 +58,7 @@ module.exports = {                                      // moduel export (옛날
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, '/src'),
+        contentBase: path.join(__dirname, '/dist'),
         port: 3000,
         historyApiFallback: true
     },

@@ -27,7 +27,7 @@ class App extends Component{
                         <HeaderComponent/> 
                     </div> */}
                     <div className="app-main-contents">
-                        <BrowserRouter basename='/test/'>
+                        <BrowserRouter basename='/minbeom/'> {/*basename='/test/' 배포할때 이것을 빼면 라우팅 작동안함 test폴더에 있는 index.html 실행*/}
                             <Switch>
                                 <Route path = "/" exact component = {SignInCommonent}></Route>
                                 <Route path = "/board" component = {ListBoardComponent}></Route>
