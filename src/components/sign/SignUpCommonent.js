@@ -23,13 +23,13 @@ const SignUpCommonent = () => {
     }, [isValid,error]);
 
     const CallBack = (result) => {
-        if(result.result){
+        if(result[0].STATE == 0){
             alert("회원가입이 완료되었습니다.");
             setIsSuccess(true);
         }
         else{
-            alert(result.message);
-            setError(result.message);
+            alert(result[0].MESSAGE);
+            setError(result[0].MESSAGE);
             setIsValid(true);
         }
     }
@@ -43,7 +43,7 @@ const SignUpCommonent = () => {
         formData.append('UserName',values.name);
         formData.append('Email',values.email);
         formData.append('Password',values.password);
-        // formData.append('Image',)
+        
         ServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
         
     }
