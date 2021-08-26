@@ -59,13 +59,15 @@ const SignUpCommonent = () => {
         }
         if (info.file.status === 'done') {
           // Get this url from response in real world.
-          getBase64(info.file.originFileObj, imageUrl =>
-            this.setState({
-              imageUrl,
-              loading: false,
-            }),
-          );
+          getBase64(info.file.originFileObj, imageUrl =>  {setLoading(false);  });
+        //   getBase64(info.file.originFileObj, imageUrl =>
+        //     this.setState({
+        //       imageUrl,
+        //       loading: false,
+        //     }),
+        //   );
         }
+        
     };
     function beforeUpload(file) {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -78,6 +80,14 @@ const SignUpCommonent = () => {
         }
         return isJpgOrPng && isLt2M;
     }
+
+    const uploadButton = (
+        <div>
+          {loading ? <LoadingOutlined /> : <PlusOutlined />}
+          <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+    );
+
     return(
         <>
             <Form form={form} name={"normal_login"}
@@ -95,7 +105,8 @@ const SignUpCommonent = () => {
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                    {true ? <img src={'https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg'} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                    {/* {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} */}
                 </Upload>
                 <Form.Item
                     name={"name"}
