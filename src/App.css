@@ -1,13 +1,13 @@
 html, body, #root,.app-main{
     height: 100%;
-
+    width: 100%;
 }
-.app-main{
+/* .app-main{
     height: 100%;
-}
-.app-main-header{
-    height: 7%;
-}
+} */
+/* .app-main-header{
+    height: 15%;
+} */
 .app-main-contents{
-    height: 93%;
+    height: 100%;
 }

@@ -1,5 +1,4 @@
 import React, { Component,Fragment } from 'react';
-import { Navbar, Nav, Button,Form, FormControl, NavDropdown, Modal, Table} from 'react-bootstrap';
 import './HeaderComponent.css';
 import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
 

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Form, FormControl } from 'react-bootstrap';
 import Editor from './EditorComponent';
 import './BoardDetailComponent.css';
+import { Button, Input } from 'antd';
 
 class BoardDetailComponent extends Component {
     constructor(props) {
@@ -22,14 +22,14 @@ class BoardDetailComponent extends Component {
     componentDidMount() {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
-        const boardseq = params.get('boardseq');
-        if (boardseq != null)
+        const BoardSeq = params.get('boardseq');
+        if (BoardSeq != null)
         {
-            fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
+            fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ BoardSeq: BoardSeq })
             ).then(res => res.json()).then((response) => {
-                this.setState({ title: response[0].boardtitle});
-                this.setState({ contents: response[0].boardcontent});
-                this.setState({ seq: boardseq});
+                this.setState({ title: response[0].BoardTitle});
+                this.setState({ contents: response[0].BoardContent});
+                this.setState({ seq: BoardSeq});
             });
         }
  
@@ -39,9 +39,9 @@ class BoardDetailComponent extends Component {
     changeTitleHandler = (event) => {
         this.setState({title: event.target.value});
     }
-    
+    //게시판 내용에 사진이 들어가면 $을 문자로 입력하기 위해 amp;가 추가되는것을 제거
     changeContentsHandler = (value) => {
-        this.setState({contents: value});
+        this.setState({contents: value.replace('$amp;','$')});
     }
     
     createBoard = (event) => {
@@ -85,29 +85,18 @@ class BoardDetailComponent extends Component {
     
     render() {
         return (
-  
-                <div className="board-detail-main">
-                    <div className="board-detail-header">
-                        <h3 className="text-center">새글을 작성해주세요</h3>
-                    </div>
-                    <div className = "board-detail">
-                        <form className="board-detail-form">
-                            <div className = "form-group1">
-                                <Form.Label> Title </Form.Label>
-                                <Form.Control type="text" placeholder="title" name="title" className="form-control" 
-                                value={this.state.title} onChange={this.changeTitleHandler}/>
-                            </div>
-                            <div className = "form-group2">
-                                <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
-                            </div>
-                        </form>
-                        <div className="board-detail-button">
-                            <Button className="btn btn-success" onClick={this.createBoard}>저장</Button>
-                            <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>취소</Button>
-                        </div>
-                    </div>
-                </div>
+            <>
+                <label> Title </label>
+                <Input type="text" placeholder="title" name="title" className="form-control" 
+                    value={this.state.title} onChange={this.changeTitleHandler}/>
 
+                <Editor value={this.state.contents} onChange={this.changeContentsHandler} />
+                <div style={{marginTop:"70px"}}>
+                <Button className="btn btn-success" onClick={this.createBoard}>저장</Button>
+                <Button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"10px"}}>취소</Button>
+                </div>
+                
+            </>
         );
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Form, Col, Table } from 'react-bootstrap';
+import { Button, Table } from 'antd-mobile';
+import 'antd-mobile/dist/antd-mobile.css';
 
 class AccountBookComponent extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class AccountBookComponent extends Component {
     render() {
         return (
             <Fragment>
-                <Table className="accountbook-table">
+                {/* <Table className="accountbook-table">
                     <thead>
                         <tr>
                             <th>일자</th>
@@ -50,7 +51,7 @@ class AccountBookComponent extends Component {
                     <Col>
                         <Button>목록</Button>
                     </Col>
-                </Form.Row>
+                </Form.Row> */}
             </Fragment>
         );
     }

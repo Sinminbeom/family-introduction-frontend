@@ -32,23 +32,23 @@ class ListBoardComponent extends Component{
       {
         var a,
         urls = [],
-        str = aboards[i]['boardcontent'],      
+        str = aboards[i]['BoardContent'],      
         rex = /<img[^>]+src="?([^\s]+)" [^\s]+">/g;
 
         while ( a = rex.exec( str ) ) {
           urls.push( a[1] );
         }
     
-        aboards[i]['thumbnail'] = urls[0];
+        aboards[i]['Thumbnail'] = urls[0];
         
-        var desc = '작성일 : ' + aboards[i]['createdtime'] + '  작성자 : ' + aboards[i]['UserName'];
-        aboards[i]['description'] = desc;
+        var desc = '작성일 : ' + aboards[i]['CreateDateTime'] + '  작성자 : ' + aboards[i]['UserName'];
+        aboards[i]['Description'] = desc;
         
         
-        var str = aboards[i]['boardcontent'];
+        var str = aboards[i]['BoardContent'];
         var target = str.replace(/<[^>]+>/g, '');
 
-        aboards[i]['boardcontent'] = target.substring(0,100) + '.....';
+        aboards[i]['BoardContent'] = target.substring(0,100) + '.....';
       }
       this.setState({ boards: aboards});
       console.log(this.state.boards);
@@ -86,27 +86,27 @@ class ListBoardComponent extends Component{
             }
             renderItem={item => (
               <List.Item
-                key={item.boardseq}
+                key={item.BoardSeq}
                 actions={[
-                  <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                  <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                  <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                  // <IconText icon={StarOutlined} text={item.} key="list-vertical-star-o" />,
+                  <IconText icon={LikeOutlined} text={item.Likes} key="list-vertical-like-o" />,
+                  <IconText icon={MessageOutlined} text={item.Views} key="list-vertical-message" />,
                 ]}
                 extra={
                     <Image
                       width={272}
                       height={300}
-                      src={item.thumbnail}
+                      src={item.Thumbnail}
                     />
                     
                 }
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.Image} />}
-                  title={<a href={'./board-read?boardseq='+item.boardseq}>{item.boardtitle}</a>}
-                  description={item.description}
+                  title={<a href={'./board-read?boardseq='+item.BoardSeq}>{item.BoardTitle}</a>} //boardseq 소문자 밖에 안받아짐
+                  description={item.Description}
                 />
-                  {item.boardcontent}
+                  {item.BoardContent}
               </List.Item>
             )}
           />
