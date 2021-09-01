@@ -16,27 +16,29 @@ class ReadBoardComponent extends Component {
             seq:0,
             comments: [],
         }
-        this.CallBack = this.CallBack.bind(this);
+        this.CommentGetCallBack = this.CommentGetCallBack.bind(this);
         this.refreshFunction = this.refreshFunction.bind(this);
+        this.BoardGetCallBack = this.BoardGetCallBack.bind(this);
     }
 
-    CallBack(result){
+    CommentGetCallBack(result){
         this.setState({ comments: result});
+    }
+
+    BoardGetCallBack(result){
+        this.setState({ title: result[0].BoardTitle});
+        this.setState({ contents: result[0].BoardContent});
     }
 
     componentDidMount(){
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const boardseq = params.get('boardseq');
+        this.setState({ seq: boardseq});
 
-        fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq })
-        ).then(res => res.json()).then((response) => {
-            this.setState({ seq: boardseq});
-            this.setState({ title: response[0].boardtitle});
-            this.setState({ contents: response[0].boardcontent});
-        });
+        GetServiceComponent('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq }),this.BoardGetCallBack);
 
-        GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' +new URLSearchParams({ boardseq: boardseq }),this.CallBack);
+        GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' +new URLSearchParams({ boardseq: boardseq }),this.CommentGetCallBack);
         
     }
 

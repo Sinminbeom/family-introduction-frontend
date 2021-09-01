@@ -23,6 +23,7 @@ class BoardDetailComponent extends Component {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const BoardSeq = params.get('boardseq');
+
         if (BoardSeq != null)
         {
             fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ BoardSeq: BoardSeq })
