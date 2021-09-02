@@ -3,7 +3,7 @@ import {LockOutlined, MailOutlined, UserOutlined, LoadingOutlined, PlusOutlined}
 import {Link, Route} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Redirect} from "react-router";
-import { ServiceComponent } from '../service/ServiceComponent';
+import { PostServiceComponent } from '../service/ServiceComponent';
 
 const SignUpCommonent = () => {
 
@@ -44,7 +44,7 @@ const SignUpCommonent = () => {
         formData.append('Email',values.email);
         formData.append('Password',values.password);
         
-        ServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
+        PostServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
         
     }
     const getBase64 = (img, callback) => {

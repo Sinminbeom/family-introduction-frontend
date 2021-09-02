@@ -3,7 +3,7 @@ import React, { Component,Fragment } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './ReadBoardComponent.css';
 import Comment from './Comment';
-import { ServiceComponent, GetServiceComponent} from '../service/ServiceComponent';
+import { PostServiceComponent, GetServiceComponent} from '../service/ServiceComponent';
 import { List, Avatar, Space,Button,Switch } from 'antd';
 
 class ReadBoardComponent extends Component {

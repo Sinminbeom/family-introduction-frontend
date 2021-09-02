@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Comment, Avatar, Input,Button } from 'antd';
-import { ServiceComponent } from '../service/ServiceComponent';
+import { PostServiceComponent } from '../service/ServiceComponent';
 import './antdCustomize.less';
 
 const { TextArea } = Input;
@@ -34,7 +34,7 @@ function SingleComment(props) {
     formData.append('Comment',CommentValue);
     formData.append('UpCommentSeq',props.comment.CommentSeq);
     
-    ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
+    PostServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
     // const variables = {
     //   content: CommentValue,

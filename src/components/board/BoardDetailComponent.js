@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Editor from './EditorComponent';
 import './BoardDetailComponent.css';
 import { Button, Input } from 'antd';
+import { PostServiceComponent } from '../service/ServiceComponent';
 
 class BoardDetailComponent extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class BoardDetailComponent extends Component {
         this.changeTitleHandler = this.changeTitleHandler.bind(this);
         this.changeContentsHandler = this.changeContentsHandler.bind(this);
         this.createBoard = this.createBoard.bind(this);
+        this.BoardSaveCallBack = this.BoardSaveCallBack.bind(this);
 
     }
 
@@ -44,7 +46,15 @@ class BoardDetailComponent extends Component {
     changeContentsHandler = (value) => {
         this.setState({contents: value.replace('$amp;','$')});
     }
-    
+
+    cancel() {
+        this.props.history.push('/board');
+    }
+
+    BoardSaveCallBack() {
+        this.props.history.push('/board');
+    }
+
     createBoard = (event) => {
         event.preventDefault();
 
@@ -58,30 +68,12 @@ class BoardDetailComponent extends Component {
             return alert('내용을 입력해주세요.'); 
         }
 
-        board.append('boardtitle',this.state.title);
-        board.append('boardcontent',this.state.contents);
-        board.append('boardseq',this.state.seq);
+        board.append('BoardTitle',this.state.title);
+        board.append('BoardContent',this.state.contents);
+        board.append('BoardSeq',this.state.seq);
 
-        try {
-            fetch('http://49.168.71.214:8000/BoardSave.php',{ 
-              method: 'POST',
-              headers:{
+        PostServiceComponent('http://49.168.71.214:8000/BoardSave.php',board,this.BoardSaveCallBack);
 
-              },
-              body: board
-          }).then(res => res.json()).then(response => {
-            this.props.history.push('/board');
-            
-        });
-        } catch (err) {
-            return console.error('err',err);
-
-        }
-
-    }
-    
-    cancel() {
-        this.props.history.push('/board');
     }
     
     render() {

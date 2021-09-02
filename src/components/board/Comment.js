@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
-import { ServiceComponent } from '../service/ServiceComponent';
+import { PostServiceComponent } from '../service/ServiceComponent';
 import { Button, Input } from 'antd';
 import './antdCustomize.less';
 
@@ -37,7 +37,7 @@ function Comment(props) {
     formData.append('BoardSeq',props.postSeq);
     formData.append('Comment',CommentValue);
     
-    ServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
+    PostServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
   };
 

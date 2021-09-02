@@ -7,7 +7,7 @@ import QuillImageDropAndPaste from "./ImageDropAndPaste";
 import { BrowserView, MobileView, isBrowser, isMobile} from 'react-device-detect';
 import quillEmoji from "react-quill-emoji";
 import "react-quill-emoji/dist/quill-emoji.css";
-import {ServiceComponent} from '../service/ServiceComponent';
+import {PostServiceComponent} from '../service/ServiceComponent';
 import { Image } from 'antd';
 
 Quill.register('modules/imageResize', ImageResize);

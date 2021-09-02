@@ -1,5 +1,5 @@
 //post전송
-export async function ServiceComponent(path, data, callback) {
+export async function PostServiceComponent(path, data, callback) {
     await fetch(path
         , {
             method: 'POST',
@@ -21,4 +21,4 @@ export async function GetServiceComponent(path, callback) {
         .then(result => { callback(result); });
 }
 
-export default {ServiceComponent, GetServiceComponent};
+export default {PostServiceComponent, GetServiceComponent};
