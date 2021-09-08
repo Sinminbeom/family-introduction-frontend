@@ -21,13 +21,13 @@ const SignInCommonent = () => {
         }
     }, [isValid,error]);
 
-    const CallBack = (result) => {
-        if(result[0].STATE == 0){
+    const SignInGetCallBack = (result) => {
+        if(result[0].State == 0){
             setIsSuccess(true);
         }
         else{
-            alert(result[0].MESSAGE);
-            setError(result[0].MESSAGE);
+            alert(result[0].Message);
+            setError(result[0].Message);
             setIsValid(true);
         }
       }
@@ -39,10 +39,10 @@ const SignInCommonent = () => {
         var formData = new FormData();
         formData.append('UserName',values.name);
         formData.append('Password',values.password);
-        PostServiceComponent('http://49.168.71.214:8000/SignInGet.php',formData,CallBack);
-
-        
+        PostServiceComponent('http://49.168.71.214:8000/SignInGet.php',formData,SignInGetCallBack);
     }
+
+
     return(
         <>
             <Form form={form} name={"normal_login"}

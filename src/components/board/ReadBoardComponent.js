@@ -19,6 +19,7 @@ class ReadBoardComponent extends Component {
         this.CommentGetCallBack = this.CommentGetCallBack.bind(this);
         this.refreshFunction = this.refreshFunction.bind(this);
         this.BoardGetCallBack = this.BoardGetCallBack.bind(this);
+        this.BoardDeleteCallBack = this.BoardDeleteCallBack.bind(this);
     }
 
     CommentGetCallBack(result){
@@ -29,7 +30,9 @@ class ReadBoardComponent extends Component {
         this.setState({ title: result[0].BoardTitle});
         this.setState({ contents: result[0].BoardContent});
     }
-
+    BoardDeleteCallBack(result){
+        this.props.history.push('/board');
+    }
     componentDidMount(){
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
@@ -38,7 +41,7 @@ class ReadBoardComponent extends Component {
 
         GetServiceComponent('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq }),this.BoardGetCallBack);
 
-        GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' +new URLSearchParams({ boardseq: boardseq }),this.CommentGetCallBack);
+        GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' + new URLSearchParams({ boardseq: boardseq }),this.CommentGetCallBack);
         
     }
 
@@ -53,22 +56,9 @@ class ReadBoardComponent extends Component {
         event.preventDefault();
 
         var board = new FormData();
-        board.append('boardseq',this.state.seq);
+        board.append('BoardSeq',this.state.seq);
 
-        try {
-            fetch('http://49.168.71.214:8000/BoardDelete.php',{ 
-              method: 'POST',
-              headers:{
-              },
-              body: board
-          }).then(res => res.json()).then(response => {
-            this.props.history.push('/board');
-            
-        });
-        } catch (err) {
-            return console.error('err',err);
-
-        }
+        PostServiceComponent('http://49.168.71.214:8000/BoardDelete.php', board, this.BoardDeleteCallBack);
     }
 
     onListClick = (event) =>{

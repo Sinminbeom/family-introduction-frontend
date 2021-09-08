@@ -12,6 +12,7 @@ const SignUpCommonent = () => {
     const [error, setError] = useState("");
     const [isSuccess,setIsSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
     
     useEffect(() => {
         if(isValid){
@@ -22,14 +23,14 @@ const SignUpCommonent = () => {
         }
     }, [isValid,error]);
 
-    const CallBack = (result) => {
-        if(result[0].STATE == 0){
+    const SignUpSaveCallBack = (result) => {
+        if(result[0].Status == 0){
             alert("회원가입이 완료되었습니다.");
             setIsSuccess(true);
         }
         else{
-            alert(result[0].MESSAGE);
-            setError(result[0].MESSAGE);
+            alert(result[0].Message);
+            setError(result[0].Message);
             setIsValid(true);
         }
     }
@@ -44,11 +45,13 @@ const SignUpCommonent = () => {
         formData.append('Email',values.email);
         formData.append('Password',values.password);
         
-        PostServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,CallBack);
+        PostServiceComponent('http://49.168.71.214:8000/SignUpSave.php',formData,SignUpSaveCallBack);
         
     }
+    
     const getBase64 = (img, callback) => {
         const reader = new FileReader();
+        console.log(reader.result);
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     }
@@ -59,7 +62,7 @@ const SignUpCommonent = () => {
         }
         if (info.file.status === 'done') {
           // Get this url from response in real world.
-          getBase64(info.file.originFileObj, imageUrl =>  {setLoading(false);  });
+          getBase64(info.file.originFileObj, imageUrl =>  {setLoading(false); setImageUrl(imageUrl);  });
         //   getBase64(info.file.originFileObj, imageUrl =>
         //     this.setState({
         //       imageUrl,
@@ -101,11 +104,12 @@ const SignUpCommonent = () => {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    action="http://49.168.71.214:8000/uploads/IMG_4378.jpg"
+                    //action='https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg'
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
-                    {true ? <img src={'https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg'} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                    {imageUrl ? <img src={'http://49.168.71.214:8000/uploads/IMG_4378.jpg'} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                     {/* {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} */}
                 </Upload>
                 <Form.Item
