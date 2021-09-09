@@ -22,7 +22,7 @@ const SignInCommonent = () => {
     }, [isValid,error]);
 
     const SignInGetCallBack = (result) => {
-        if(result[0].State == 0){
+        if(!result[0].Status){
             setIsSuccess(true);
         }
         else{

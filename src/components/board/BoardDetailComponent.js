@@ -68,9 +68,9 @@ class BoardDetailComponent extends Component {
             return alert('내용을 입력해주세요.'); 
         }
 
+        board.append('BoardSeq',this.state.seq);
         board.append('BoardTitle',this.state.title);
         board.append('BoardContent',this.state.contents);
-        board.append('BoardSeq',this.state.seq);
 
         PostServiceComponent('http://49.168.71.214:8000/BoardSave.php',board,this.BoardSaveCallBack);
 

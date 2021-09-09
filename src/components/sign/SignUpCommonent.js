@@ -17,14 +17,15 @@ const SignUpCommonent = () => {
     useEffect(() => {
         if(isValid){
             form.setFields([{
-                name: "email",
+                name: "name",
                 errors: [error],
             }]);
         }
     }, [isValid,error]);
 
     const SignUpSaveCallBack = (result) => {
-        if(result[0].Status == 0){
+        console.log(result);
+        if(!result[0].Status){
             alert("회원가입이 완료되었습니다.");
             setIsSuccess(true);
         }

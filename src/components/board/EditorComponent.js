@@ -124,20 +124,16 @@ class EditorComponent extends Component{
               console.log(response["url"]);
               const link = response["url"];
               quill.insertEmbed(range.index, 'image', link);
-              
-              if(isMobile){
-                quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
-              }
+              quill.formatText(range.index, 1, 'width', '300px'); //to limit the width              
+              // if(isMobile){
+              //   quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
+              // }
           });
       }
       catch(err)
       {
         return console.error('err',err);
       }
-      /*const link = 'http://192.168.68.128/minbeom.jpg';
-      this part the image is inserted
-      by 'image' option below, you just have to put src(link) of img here. */
-
     }
     input.addEventListener('change',api,false);
 
