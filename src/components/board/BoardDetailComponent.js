@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Editor from './EditorComponent';
 import './BoardDetailComponent.css';
 import { Button, Input } from 'antd';
-import { PostServiceComponent } from '../service/ServiceComponent';
+import { GetServiceComponent, PostServiceComponent } from '../service/ServiceComponent';
 
 class BoardDetailComponent extends Component {
     constructor(props) {
@@ -18,6 +18,7 @@ class BoardDetailComponent extends Component {
         this.changeContentsHandler = this.changeContentsHandler.bind(this);
         this.createBoard = this.createBoard.bind(this);
         this.BoardSaveCallBack = this.BoardSaveCallBack.bind(this);
+        this.BoardGetCallBack = this.BoardGetCallBack.bind(this);
 
     }
 
@@ -25,15 +26,10 @@ class BoardDetailComponent extends Component {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const BoardSeq = params.get('boardseq');
-
+        
         if (BoardSeq != null)
         {
-            fetch('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ BoardSeq: BoardSeq })
-            ).then(res => res.json()).then((response) => {
-                this.setState({ title: response[0].BoardTitle});
-                this.setState({ contents: response[0].BoardContent});
-                this.setState({ seq: BoardSeq});
-            });
+            GetServiceComponent('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: BoardSeq }), this.BoardGetCallBack.bind(this,BoardSeq) );
         }
  
 
@@ -44,7 +40,7 @@ class BoardDetailComponent extends Component {
     }
     //게시판 내용에 사진이 들어가면 $을 문자로 입력하기 위해 amp;가 추가되는것을 제거
     changeContentsHandler = (value) => {
-        this.setState({contents: value.replace('$amp;','$')});
+        this.setState({contents: value});
     }
 
     cancel() {
@@ -54,7 +50,11 @@ class BoardDetailComponent extends Component {
     BoardSaveCallBack() {
         this.props.history.push('/board');
     }
-
+    BoardGetCallBack(BoardSeq,response){
+        this.setState({ title: response[0].BoardTitle});
+        this.setState({ contents: response[0].BoardContent});
+        this.setState({ seq: BoardSeq});
+    }
     createBoard = (event) => {
         event.preventDefault();
 
