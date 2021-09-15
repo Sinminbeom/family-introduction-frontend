@@ -121,13 +121,21 @@ class EditorComponent extends Component{
         fetch('http://49.168.71.214:8000/ImageUpload.php', options)
         .then(res => res.json())
         .then(response => {
-              console.log(response["url"]);
-              const link = response["url"];
-              quill.insertEmbed(range.index, 'image', link);
-              quill.formatText(range.index, 1, 'width', '300px'); //to limit the width              
-              // if(isMobile){
-              //   quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
-              // }
+              if(!response['fail'])
+              {
+                console.log(response);
+                const link = response["url"];
+                quill.insertEmbed(range.index, 'image', link);
+                quill.formatText(range.index, 1, 'width', '300px'); //to limit the width              
+                // if(isMobile){
+                //   quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
+                // }
+              }
+              else
+              {
+                console.log(response['fail']);
+              }
+
           });
       }
       catch(err)
