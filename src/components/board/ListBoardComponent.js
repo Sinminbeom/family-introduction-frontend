@@ -33,10 +33,11 @@ class ListBoardComponent extends Component{
         var a,
         urls = [],
         str = aboards[i]['BoardContent'],      
-        rex = /<img[^>]+src="?([^\s]+)" [^\s]+">/g;
+        rex = /<img[^>]+src="?([^\s]+)"[^>]+>/g;
 
         while ( a = rex.exec( str ) ) {
           urls.push( a[1] );
+          console.log(a);
         }
     
         aboards[i]['Thumbnail'] = urls[0];

@@ -133,7 +133,7 @@ class EditorComponent extends Component{
               }
               else
               {
-                console.log(response['fail']);
+                alert(response['fail']);
               }
 
           });
