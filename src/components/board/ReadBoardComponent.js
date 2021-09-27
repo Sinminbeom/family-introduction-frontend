@@ -24,6 +24,7 @@ class ReadBoardComponent extends Component {
 
     CommentGetCallBack(result){
         this.setState({ comments: result});
+        console.log(result);
     }
 
     BoardGetCallBack(result){
@@ -41,7 +42,7 @@ class ReadBoardComponent extends Component {
 
         GetServiceComponent('http://49.168.71.214:8000/BoardGet.php?' + new URLSearchParams({ boardseq: boardseq }),this.BoardGetCallBack);
 
-        // GetServiceComponent('http://49.168.71.214:8000/CommentGet.php?' + new URLSearchParams({ boardseq: boardseq }),this.CommentGetCallBack);
+        GetServiceComponent('http://49.168.71.214:8000/CommentQuery.php?' + new URLSearchParams({ boardseq: boardseq }),this.CommentGetCallBack);
         
     }
 

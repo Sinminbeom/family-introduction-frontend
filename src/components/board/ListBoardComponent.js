@@ -37,7 +37,6 @@ class ListBoardComponent extends Component{
 
         while ( a = rex.exec( str ) ) {
           urls.push( a[1] );
-          console.log(a);
         }
     
         aboards[i]['Thumbnail'] = urls[0];

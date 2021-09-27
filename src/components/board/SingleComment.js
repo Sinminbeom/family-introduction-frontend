@@ -31,9 +31,10 @@ function SingleComment(props) {
     var formData = new FormData();
 
     formData.append('BoardSeq',props.postSeq);
-    formData.append('Comment',CommentValue);
+    formData.append('BoardCommentContent',CommentValue);
     formData.append('UpCommentSeq',props.comment.CommentSeq);
-    
+    formData.append('UserName',localStorage.getItem('UserName'));
+    console.log('dfdfd');
     PostServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
     // const variables = {
