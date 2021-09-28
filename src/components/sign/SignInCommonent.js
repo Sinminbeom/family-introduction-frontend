@@ -11,7 +11,6 @@ const SignInCommonent = () => {
     const [isValid, setIsValid] = useState(false);
     const [error, setError] = useState("");
     const [isSuccess,setIsSuccess] = useState(false);
-    const [UserName, setUserName] = useState('');
 
     useEffect(() => {
         if(isValid){
@@ -22,16 +21,10 @@ const SignInCommonent = () => {
         }
     }, [isValid,error]);
 
-    useEffect(() => {
-        if(isSuccess)
-        {
-            window.localStorage.setItem('UserName',UserName);
-        }
-    },[isSuccess]);
-
     const SignInGetCallBack = (result) => {
         if(!result[0].Status){
             setIsSuccess(true);
+            window.localStorage.setItem('UserSeq',result[0].Message);
         }
         else{
             alert(result[0].Message);
@@ -49,8 +42,6 @@ const SignInCommonent = () => {
         formData.append('Password',values.password);
         PostServiceComponent('http://49.168.71.214:8000/SignInGet.php',formData,SignInGetCallBack);
 
-        setUserName(values.name);
-        
     }
 
 

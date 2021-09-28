@@ -17,11 +17,11 @@ function Comment(props) {
 
 
   const CallBack = (result) => {
-    if(result.result){
+    if(!result[0].Status){
       setCommentValue(''); //저장후 빈칸으로 만들기 위해
     }
     else{
-      alert(result.message);
+      alert(result.Message);
     }
   }
   
@@ -35,7 +35,8 @@ function Comment(props) {
     }
 
     formData.append('BoardSeq',props.postSeq);
-    formData.append('Comment',CommentValue);
+    formData.append('BoardCommentContent',CommentValue);
+    formData.append('UserSeq',localStorage.getItem('UserSeq'));
     
     PostServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
@@ -62,7 +63,7 @@ function Comment(props) {
                 <ReplyComment
                   refreshFunction={props.refreshFunction}
                   commentList={props.commentList}
-                  parentCommentId={comment.CommentSeq}
+                  parentCommentId={comment.BoardCommentSeq}
                   postSeq={props.postSeq}
                   key={index}
                 />

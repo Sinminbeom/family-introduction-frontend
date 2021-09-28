@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Comment, Avatar, Input,Button } from 'antd';
+import { Comment, Avatar, Input,Button, Form } from 'antd';
 import { PostServiceComponent } from '../service/ServiceComponent';
 import './antdCustomize.less';
 
@@ -12,12 +12,12 @@ function SingleComment(props) {
   // const user = useSelector((state) => state.user);
 
   const CallBack = (response) => {
-    if(response.result){
+    if(!response[0].Status){
       setCommentValue(''); //저장후 빈칸으로 만들기 위해
       // props.refreshFunction(response);
     }
     else{
-      alert(response.message);
+      alert(response[0].Message);
     }
   }
 
@@ -32,9 +32,9 @@ function SingleComment(props) {
 
     formData.append('BoardSeq',props.postSeq);
     formData.append('BoardCommentContent',CommentValue);
-    formData.append('UpCommentSeq',props.comment.CommentSeq);
-    formData.append('UserName',localStorage.getItem('UserName'));
-    console.log('dfdfd');
+    formData.append('UpCommentSeq',props.comment.BoardCommentSeq);
+    formData.append('UserSeq',localStorage.getItem('UserSeq'));
+
     PostServiceComponent('http://49.168.71.214:8000/CommentSave.php',formData,CallBack);
 
     // const variables = {
@@ -71,10 +71,9 @@ function SingleComment(props) {
     <div>
       <Comment
         actions={actions}
-        author={props.comment.NickName}
-        // avatar={<Avatar src={props.comment.writer.image} alt />}
-        avatar={<Avatar />}
-        content={<p>{props.comment.Comment}</p>}
+        author={props.comment.UserName}
+        avatar={<Avatar src={props.comment.Image} alt />}
+        content={<p>{props.comment.BoardCommentContent}</p>}
       />
       {OpenReply && ( //openReply값이 true일때만 대댓글창을 보이게만듬
         <Form style={{ display: 'flex' }} onSubmit={onsubmit}>

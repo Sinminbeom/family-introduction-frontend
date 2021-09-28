@@ -29,7 +29,7 @@ function ReplyComment(props) {
               // refreshFunction={props.refreshFunction}
               commentList={props.commentList}
               postSeq={props.postSeq}
-              parentCommentId={comment.CommentSeq}
+              parentCommentId={comment.BoardCommentSeq}
             />
           </div>
         )}
