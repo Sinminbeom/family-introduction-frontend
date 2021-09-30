@@ -50,7 +50,7 @@ class EditorComponent extends Component{
         ['emoji'],
       ],
       handlers: {
-        image: this.imageHandler,
+        image: this.imageHandler
       },
     },
     "emoji-toolbar":true,
@@ -101,7 +101,7 @@ class EditorComponent extends Component{
     var formData = new FormData();
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    input.setAttribute('accept', 'image/*,video/*');
     input.click();
     //input.onChange() = function(); 안쓴이유는 모든 브라우저는 잘되는데 safari만 onChange 이벤트를 못씀
     function api() {
@@ -125,7 +125,16 @@ class EditorComponent extends Component{
               {
                 console.log(response);
                 const link = response["url"];
-                quill.insertEmbed(range.index, 'image', link);
+                if(file.type.includes("image/"))
+                {
+                  quill.insertEmbed(range.index, 'image', link);
+                }
+                else
+                {
+                  quill.insertEmbed(range.index, 'video', link);
+                }
+                
+                // quill.insertEmbed(range.index, 'image', link);
                 quill.formatText(range.index, 1, 'width', '300px'); //to limit the width              
                 // if(isMobile){
                 //   quill.formatText(range.index, 1, 'width', '300px'); //to limit the width
@@ -176,6 +185,7 @@ class EditorComponent extends Component{
 
   onQuillChange = (content, delta, source, editor) =>{
     this.props.onChange(editor.getHTML());
+    console.log(editor.getHTML());
   }
 
     render(){
