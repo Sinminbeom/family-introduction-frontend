@@ -119,8 +119,8 @@ function LactationComponent(props) {
       age: '32',
       address: `London, Park Lane no. ${count}`,
     };
-    setDataSource([...dataSource, newData]);
-    console.log(dataSource);
+    //setDataSource([...dataSource, newData]);
+    setDataSource(dataSource.concat(newData));
     setCount(count + 1);
     // this.setState({
     //   dataSource: [...dataSource, newData],
