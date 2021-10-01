@@ -102,17 +102,18 @@ function LactationComponent(props) {
       address: 'London, Park Lane no. 1',
     }
   ]);
-  const [count, setCount] = useState('2');
+  const [count, setCount] = useState(2);
   
   
   const handleDelete = (key) => {
-    const dataSource = [...dataSource];
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
-    });
+    // const dataSource = [...dataSource];
+    // this.setState({
+    //   dataSource: dataSource.filter((item) => item.key !== key),
+    // });
+    setDataSource(dataSource.filter((item) => item.key !== key));
   };
+
   const handleAdd = () => {
-    // const { count, dataSource } = this.state;
     const newData = {
       key: count,
       name: `Edward King ${count}`,
@@ -122,19 +123,23 @@ function LactationComponent(props) {
     //setDataSource([...dataSource, newData]);
     setDataSource(dataSource.concat(newData));
     setCount(count + 1);
-    // this.setState({
-    //   dataSource: [...dataSource, newData],
-    //   count: count + 1,
-    // });
+
   };
   const handleSave = (row) => {
-    const newData = [...this.state.dataSource];
+    // const newData = [...this.state.dataSource];
+    // const index = newData.findIndex((item) => row.key === item.key);
+    // const item = newData[index];
+    // newData.splice(index, 1, { ...item, ...row });
+    // this.setState({
+    //   dataSource: newData,
+    // });
+
+    const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
     newData.splice(index, 1, { ...item, ...row });
-    this.setState({
-      dataSource: newData,
-    });
+    setDataSource(newData);
+    console.log('handleSave');
   };
 
   const components = {
