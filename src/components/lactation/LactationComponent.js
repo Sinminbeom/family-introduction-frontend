@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
+import { Table, Input, Button, Popconfirm, Form, Checkbox } from 'antd';
 import { PostServiceComponent } from '../service/ServiceComponent';
 import '../board/antdCustomize.less';
 const EditableContext = React.createContext(null);
@@ -14,7 +14,7 @@ const EditableRow = ({ index, ...props }) => {
       </Form>
     );
   };
-  
+
   const EditableCell = ({
     title,
     editable,
@@ -22,6 +22,7 @@ const EditableRow = ({ index, ...props }) => {
     dataIndex,
     record,
     handleSave,
+    isCheck,
     ...restProps
   }) => {
     const [editing, setEditing] = useState(false);
@@ -32,14 +33,14 @@ const EditableRow = ({ index, ...props }) => {
         inputRef.current.focus();
       }
     }, [editing]);
-  
+
     const toggleEdit = () => {
       setEditing(!editing);
       form.setFieldsValue({
         [dataIndex]: record[dataIndex],
       });
     };
-  
+    
     const save = async () => {
       try {
         const values = await form.validateFields();
@@ -51,7 +52,7 @@ const EditableRow = ({ index, ...props }) => {
     };
   
     let childNode = children;
-  
+    console.log(dataIndex);
     if (editable) {
       childNode = editing ? (
         <Form.Item
@@ -68,7 +69,7 @@ const EditableRow = ({ index, ...props }) => {
         >
           <Input ref={inputRef} onPressEnter={save} onBlur={save} />
         </Form.Item>
-      ) : (
+      ) : isCheck ? <Checkbox checked={children[1] == 1 ? true : false} onChange={(e) => onChange(e,record)}/> : (
         <div
           className="editable-cell-value-wrap"
           style={{
@@ -80,7 +81,7 @@ const EditableRow = ({ index, ...props }) => {
         </div>
       );
     }
-  
+    
     return <td {...restProps}>{childNode}</td>;
   };
 
@@ -90,16 +91,34 @@ function LactationComponent(props) {
   const [dataSource, setDataSource] = useState(
   [        
     {
-      key: '0',
-      name: 'Edward King 0',
-      age: '32',
-      address: 'London, Park Lane no. 0',
+      key:'1',
+      RowNum: '1',
+      TimeType: '오전',
+      LactationHour : '2시',
+      BreastMilkMinute: '10',//모유
+      BreastMilkML: '120',
+      PowderedMilkMinute: '20',//분유
+      PowderedMilkML:'150',
+      BreastPumpMinute:'30', //유축
+      BreastPumpML:'180',
+      IsPee:'1',
+      IsPoop:'0',
+      etc:'달콩이는 귀여움'
     },
     {
-      key: '1',
-      name: 'Edward King 1',
-      age: '32',
-      address: 'London, Park Lane no. 1',
+      key:'2',
+      RowNum: '2',
+      TimeType: '오전',
+      LactationHour : '2시',
+      BreastMilkMinute: '10',//모유
+      BreastMilkML: '120',
+      PowderedMilkMinute: '20',//분유
+      PowderedMilkML:'150',
+      BreastPumpMinute:'30', //유축
+      BreastPumpML:'180',
+      IsPee:'0',
+      IsPoop:'1',
+      etc:'홍수빈 똥싸게 생김'
     }
   ]);
   const [count, setCount] = useState(2);
@@ -126,20 +145,18 @@ function LactationComponent(props) {
 
   };
   const handleSave = (row) => {
-    // const newData = [...this.state.dataSource];
-    // const index = newData.findIndex((item) => row.key === item.key);
-    // const item = newData[index];
-    // newData.splice(index, 1, { ...item, ...row });
-    // this.setState({
-    //   dataSource: newData,
-    // });
-
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
     newData.splice(index, 1, { ...item, ...row });
     setDataSource(newData);
-    console.log('handleSave');
+  };
+
+  const onChange = (e,record) => {
+    // const newData = [...dataSource];
+    // const index = newData.findIndex((item) => row.key === item.key);
+    // console.log(form.validateFields());
+    console.log(record);
   };
 
   const components = {
@@ -151,18 +168,94 @@ function LactationComponent(props) {
 
   const columns = [
     {
-      title: 'name',
-      dataIndex: 'name',
-      width: '30%',
+      dataIndex: 'RowNum',
+      fixed: 'left',
+      align: 'center'
+    },
+    {
+      title: '시간',
+      dataIndex: 'TimeType',
       editable: true,
+      align: 'center',
+      colSpan:2
     },
     {
-      title: 'age',
-      dataIndex: 'age',
+      title: '시(Hour)',
+      dataIndex: 'LactationHour',
+      editable: true,
+      align: 'center',
+      colSpan:0
     },
     {
-      title: 'address',
-      dataIndex: 'address',
+      title: '모유',
+      children: [
+                  {
+                    title: '분', //모유(분)
+                    dataIndex: 'BreastMilkMinute',
+                    editable: true,
+                    align: 'center'
+                  },
+                  {
+                    title: 'ml', //모유(ml)
+                    dataIndex: 'BreastMilkML',
+                    editable: true,
+                    align: 'center'
+                  },
+                ]
+    },
+    {
+      title: '분유',
+      children: [
+                  {
+                    title: '분', //분유(분)
+                    dataIndex: 'PowderedMilkMinute',
+                    editable: true,
+                    align: 'center'
+                  },
+                  {
+                    title: 'ml', //분유(ml)
+                    dataIndex: 'PowderedMilkML',
+                    editable: true,
+                    align: 'center'
+                  },
+                ]
+    },
+    {
+      title: '유축',
+      children: [
+                  {
+                    title: '분', //유축(분)
+                    dataIndex: 'BreastPumpMinute',
+                    editable: true,
+                    align: 'center'
+                  },
+                  {
+                    title: 'ml', //유축(ml)
+                    dataIndex: 'BreastPumpML',
+                    editable: true,
+                    align: 'center'
+                  },
+                ]
+    },
+    {
+      title: '소변',
+      dataIndex: 'IsPee',
+      align: 'center',
+      editable: true,
+      isCheck: true
+    },
+    {
+      title: '대변',
+      dataIndex: 'IsPoop',
+      align: 'center',
+      editable: true,
+      isCheck: true
+    },
+    {
+      title: '기타',
+      dataIndex: 'etc',
+      editable: true,
+      align: 'center'
     },
     {
       title: 'operation',
@@ -180,7 +273,7 @@ function LactationComponent(props) {
     if (!col.editable) {
       return col;
     }
-
+    console.log({...col});
     return {
       ...col,
       onCell: (record) => ({
@@ -189,6 +282,7 @@ function LactationComponent(props) {
         dataIndex: col.dataIndex,
         title: col.title,
         handleSave: handleSave,
+        isCheck:col.isCheck
       }),
     };
   });
@@ -210,144 +304,11 @@ function LactationComponent(props) {
       bordered
       dataSource={dataSource}
       columns={columnsArr}
+      pagination={false}
+      scroll={{ x: 2000, y: 200 }}
     />
   </div>
   );
 }
 
 export default LactationComponent;
-
-/*
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
-import 'antd/dist/antd.css';
-import './index.css';
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
-const EditableContext = React.createContext(null);
-
-
-
-class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: 'name',
-        dataIndex: 'name',
-        width: '30%',
-        editable: true,
-      },
-      {
-        title: 'age',
-        dataIndex: 'age',
-      },
-      {
-        title: 'address',
-        dataIndex: 'address',
-      },
-      {
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (_, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-              <a>Delete</a>
-            </Popconfirm>
-          ) : null,
-      },
-    ];
-    this.state = {
-      dataSource: [
-        {
-          key: '0',
-          name: 'Edward King 0',
-          age: '32',
-          address: 'London, Park Lane no. 0',
-        },
-        {
-          key: '1',
-          name: 'Edward King 1',
-          age: '32',
-          address: 'London, Park Lane no. 1',
-        },
-      ],
-      count: 2,
-    };
-  }
-
-  handleDelete = (key) => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
-    });
-  };
-  handleAdd = () => {
-    const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: '32',
-      address: `London, Park Lane no. ${count}`,
-    };
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    });
-  };
-  handleSave = (row) => {
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, { ...item, ...row });
-    this.setState({
-      dataSource: newData,
-    });
-  };
-
-  render() {
-    const { dataSource } = this.state;
-    const components = {
-      body: {
-        row: EditableRow,
-        cell: EditableCell,
-      },
-    };
-    const columns = this.columns.map((col) => {
-      if (!col.editable) {
-        return col;
-      }
-
-      return {
-        ...col,
-        onCell: (record) => ({
-          record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          handleSave: this.handleSave,
-        }),
-      };
-    });
-    return (
-      <div>
-        <Button
-          onClick={this.handleAdd}
-          type="primary"
-          style={{
-            marginBottom: 16,
-          }}
-        >
-          Add a row
-        </Button>
-        <Table
-          components={components}
-          rowClassName={() => 'editable-row'}
-          bordered
-          dataSource={dataSource}
-          columns={columns}
-        />
-      </div>
-    );
-  }
-}
-*/
