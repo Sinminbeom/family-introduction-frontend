@@ -44,15 +44,25 @@ const EditableRow = ({ index, ...props }) => {
     const save = async () => {
       try {
         const values = await form.validateFields();
+
         toggleEdit();
         handleSave({ ...record, ...values });
       } catch (errInfo) {
         console.log('Save failed:', errInfo);
       }
     };
-  
+
+    const change = (e) => {
+      try{
+        record[dataIndex] = (record[dataIndex] == '1' ? '0' : '1');
+        handleSave({ ...record});
+      } catch (errInfo) {
+        console.log('Save failed:', errInfo);
+      }
+    };
+
     let childNode = children;
-    console.log(dataIndex);
+
     if (editable) {
       childNode = editing ? (
         <Form.Item
@@ -69,7 +79,7 @@ const EditableRow = ({ index, ...props }) => {
         >
           <Input ref={inputRef} onPressEnter={save} onBlur={save} />
         </Form.Item>
-      ) : isCheck ? <Checkbox checked={children[1] == 1 ? true : false} onChange={(e) => onChange(e,record)}/> : (
+      ) : isCheck ? <Checkbox checked={children[1] == 1 ? true : false} onChange={change}/> : (
         <div
           className="editable-cell-value-wrap"
           style={{
@@ -152,7 +162,7 @@ function LactationComponent(props) {
     setDataSource(newData);
   };
 
-  const onChange = (e,record) => {
+  const onChange = () => {
     // const newData = [...dataSource];
     // const index = newData.findIndex((item) => row.key === item.key);
     // console.log(form.validateFields());
@@ -273,7 +283,7 @@ function LactationComponent(props) {
     if (!col.editable) {
       return col;
     }
-    console.log({...col});
+
     return {
       ...col,
       onCell: (record) => ({
