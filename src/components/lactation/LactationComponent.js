@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Popconfirm, Form, Checkbox } from 'antd';
+import { Table, Input, Button, Popconfirm, Form, Checkbox, DatePicker } from 'antd';
 import { PostServiceComponent } from '../service/ServiceComponent';
 import '../board/antdCustomize.less';
 const EditableContext = React.createContext(null);
@@ -98,39 +98,7 @@ const EditableRow = ({ index, ...props }) => {
 
   
 function LactationComponent(props) {
-  const [dataSource, setDataSource] = useState(
-  [        
-    {
-      key:'1',
-      RowNum: '1',
-      TimeType: '오전',
-      LactationHour : '2시',
-      BreastMilkMinute: '10',//모유
-      BreastMilkML: '120',
-      PowderedMilkMinute: '20',//분유
-      PowderedMilkML:'150',
-      BreastPumpMinute:'30', //유축
-      BreastPumpML:'180',
-      IsPee:'1',
-      IsPoop:'0',
-      etc:'달콩이는 귀여움'
-    },
-    {
-      key:'2',
-      RowNum: '2',
-      TimeType: '오전',
-      LactationHour : '2시',
-      BreastMilkMinute: '10',//모유
-      BreastMilkML: '120',
-      PowderedMilkMinute: '20',//분유
-      PowderedMilkML:'150',
-      BreastPumpMinute:'30', //유축
-      BreastPumpML:'180',
-      IsPee:'0',
-      IsPoop:'1',
-      etc:'홍수빈 똥싸게 생김'
-    }
-  ]);
+  const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(2);
   
   
@@ -162,32 +130,134 @@ function LactationComponent(props) {
     setDataSource(newData);
   };
 
-  const onChange = () => {
-    // const newData = [...dataSource];
-    // const index = newData.findIndex((item) => row.key === item.key);
-    // console.log(form.validateFields());
-    console.log(record);
-  };
-
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
+  const DateSaveCallBack = (response) => {
+        
+    for(let i=0; i<response.length; i++)
+    {
+      response[i]['RowNum'] = i + 1;
+      response[i]['key'] = response[i]['LactationSeq'];
+      response[i]['LactationHour'] = response[i]['LactationHour'] + '시';
+    }
+
+    setDataSource(response);
+    console.log(dataSource);
+
+  }
+  const onChangeDatePicker = (e) =>{
+    var LactationDate = new FormData();
+
+    LactationDate.append('LactationDate',e.format('YYYYMMDD'));
+    LactationDate.append('UserSeq',localStorage.getItem('UserSeq'));
+
+    PostServiceComponent('http://49.168.71.214:8000/LactationDateQuery.php',LactationDate,DateSaveCallBack);
+  }
 
   const columns = [
     {
       dataIndex: 'RowNum',
       fixed: 'left',
+      width: '4%',
       align: 'center'
     },
     {
       title: '시간',
-      dataIndex: 'TimeType',
+      dataIndex: 'LactationHourType',
       editable: true,
       align: 'center',
-      colSpan:2
+      colSpan:2,
+      render: (value, row, index) => {
+        
+        const obj = {
+          children: value,
+          props: {},
+        };
+
+        if (index === 0) {
+          obj.props.rowSpan = 12;
+        }
+        if (index === 1) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 2) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 3) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 4) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 5) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 6) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 7) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 8) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 9) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 10) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 11) {
+          obj.props.rowSpan = 0;
+        }
+
+        if (index === 12) {
+          obj.props.rowSpan = 12;
+        }
+        if (index === 13) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 14) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 15) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 16) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 17) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 18) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 19) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 20) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 21) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 22) {
+          obj.props.rowSpan = 0;
+        }
+        if (index === 23) {
+          obj.props.rowSpan = 0;
+        }
+        // These two are merged into above cell
+        // if (index === 12) {
+        //    obj.props.rowSpan = 12;
+        // }
+
+        return obj;
+      },
     },
     {
       title: '시(Hour)',
@@ -308,6 +378,7 @@ function LactationComponent(props) {
     >
       Add a row
     </Button>
+    <DatePicker size={'large'} onChange={onChangeDatePicker}/>
     <Table
       components={components}
       rowClassName={() => 'editable-row'}
@@ -315,7 +386,7 @@ function LactationComponent(props) {
       dataSource={dataSource}
       columns={columnsArr}
       pagination={false}
-      scroll={{ x: 2000, y: 200 }}
+      scroll={{ x: 2000, y: 2000 }}
     />
   </div>
   );
