@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {Redirect} from "react-router";
 import { PostServiceComponent } from '../service/ServiceComponent';
 
-const SignUpCommonent = () => {
+const SignUpComponent = () => {
 
     const [form] = Form.useForm();
     const [isValid, setIsValid] = useState(false);
@@ -162,4 +162,4 @@ const SignUpCommonent = () => {
     )
 }
 
-export default SignUpCommonent;
+export default SignUpComponent;

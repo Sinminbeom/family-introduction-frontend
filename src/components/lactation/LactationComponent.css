@@ -1,0 +1,28 @@
+.editable-cell {
+    position: relative;
+  }
+  
+  .editable-cell-value-wrap {
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  
+  .editable-row:hover .editable-cell-value-wrap {
+    padding: 4px 11px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+  }
+  
+  [data-theme='dark'] .editable-row:hover .editable-cell-value-wrap {
+    border: 1px solid #434343;
+  }
+
+.minbeom{
+    position: fixed;
+    left: 32px;
+    top: 102px;
+    z-index: 2147483640;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}

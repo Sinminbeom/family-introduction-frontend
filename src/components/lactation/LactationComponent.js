@@ -1,19 +1,24 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Popconfirm, Form, Checkbox, DatePicker } from 'antd';
+import { Table, Input, Button, Popconfirm, Form, Checkbox, DatePicker, Typography } from 'antd';
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 import { PostServiceComponent } from '../service/ServiceComponent';
 import '../board/antdCustomize.less';
+import './LactationComponent.css';
+
+const { Text } = Typography;
+
 const EditableContext = React.createContext(null);
 
 const EditableRow = ({ index, ...props }) => {
     const [form] = Form.useForm();
     return (
       <Form form={form} component={false}>
-        <EditableContext.Provider value={form}>
+        <EditableContext.Provider value={form} >
           <tr {...props} />
         </EditableContext.Provider>
       </Form>
     );
-  };
+};
 
   const EditableCell = ({
     title,
@@ -45,6 +50,8 @@ const EditableRow = ({ index, ...props }) => {
       try {
         const values = await form.validateFields();
 
+        // console.log(values);
+        // console.log(record);
         toggleEdit();
         handleSave({ ...record, ...values });
       } catch (errInfo) {
@@ -70,14 +77,14 @@ const EditableRow = ({ index, ...props }) => {
             margin: 0,
           }}
           name={dataIndex}
-          rules={[
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: `${title} is required.`,
+          //   },
+          // ]}
         >
-          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+          <Input ref={inputRef} onPressEnter={save} onBlur={save}/>
         </Form.Item>
       ) : isCheck ? <Checkbox checked={children[1] == 1 ? true : false} onChange={change}/> : (
         <div
@@ -109,19 +116,35 @@ function LactationComponent(props) {
     // });
     setDataSource(dataSource.filter((item) => item.key !== key));
   };
+  const LactationSaveCallBack = (result) => {
+    console.log(result);
+    if(!result[0].Status){
+      alert('저장되었습니다.');
+    }
+    else{
+      alert(result[0].Message);
+    }
+  }
+  const LactationSave = (event) => {
+    // const newData = {
+    //   key: count,
+    //   name: `Edward King ${count}`,
+    //   age: '32',
+    //   address: `London, Park Lane no. ${count}`,
+    // };
+    // //setDataSource([...dataSource, newData]);
+    // setDataSource(dataSource.concat(newData));
+    // setCount(count + 1);
+    event.preventDefault();
 
-  const handleAdd = () => {
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: '32',
-      address: `London, Park Lane no. ${count}`,
-    };
-    //setDataSource([...dataSource, newData]);
-    setDataSource(dataSource.concat(newData));
-    setCount(count + 1);
+    var lactations = new FormData();
 
+    lactations.append('Lactations',JSON.stringify(dataSource));
+    lactations.append('UserSeq',window.localStorage.getItem('UserSeq'));
+
+    PostServiceComponent('http://49.168.71.214:8000/LactationSave.php',lactations,LactationSaveCallBack);
   };
+
   const handleSave = (row) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -140,7 +163,7 @@ function LactationComponent(props) {
         
     for(let i=0; i<response.length; i++)
     {
-      response[i]['RowNum'] = i + 1;
+      // response[i]['RowNum'] = i + 1;
       response[i]['key'] = response[i]['LactationSeq'];
       response[i]['LactationHour'] = response[i]['LactationHour'] + '시';
     }
@@ -159,16 +182,16 @@ function LactationComponent(props) {
   }
 
   const columns = [
-    {
-      dataIndex: 'RowNum',
-      fixed: 'left',
-      width: '4%',
-      align: 'center'
-    },
+    // {
+    //   dataIndex: 'RowNum',
+    //   fixed: 'left',
+    //   width: '4%',
+    //   editable: true,
+    //   align: 'center'
+    // },
     {
       title: '시간',
       dataIndex: 'LactationHourType',
-      editable: true,
       align: 'center',
       colSpan:2,
       render: (value, row, index) => {
@@ -251,10 +274,6 @@ function LactationComponent(props) {
         if (index === 23) {
           obj.props.rowSpan = 0;
         }
-        // These two are merged into above cell
-        // if (index === 12) {
-        //    obj.props.rowSpan = 12;
-        // }
 
         return obj;
       },
@@ -262,12 +281,12 @@ function LactationComponent(props) {
     {
       title: '시(Hour)',
       dataIndex: 'LactationHour',
-      editable: true,
       align: 'center',
       colSpan:0
     },
     {
       title: '모유',
+      editable: true,
       children: [
                   {
                     title: '분', //모유(분)
@@ -285,6 +304,7 @@ function LactationComponent(props) {
     },
     {
       title: '분유',
+      editable: true,
       children: [
                   {
                     title: '분', //분유(분)
@@ -302,6 +322,7 @@ function LactationComponent(props) {
     },
     {
       title: '유축',
+      editable: true,
       children: [
                   {
                     title: '분', //유축(분)
@@ -337,48 +358,87 @@ function LactationComponent(props) {
       editable: true,
       align: 'center'
     },
-    {
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (_, record) =>
-        dataSource.length >= 1 ? (
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
-          </Popconfirm>
-        ) : null,
-    },
+    // {
+    //   title: 'operation',
+    //   dataIndex: 'operation',
+    //   render: (_, record) =>
+    //     dataSource.length >= 1 ? (
+    //       <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+    //         <a>Delete</a>
+    //       </Popconfirm>
+    //     ) : null,
+    // },
   ];
 
-  const columnsArr = columns.map((col) => {
+
+  
+  // const columnsArr = columns.map((col) => {
+  //   if (!col.editable) {
+  //     // console.log(col);
+  //     return col;
+  //   }
+
+  //   // if(col.children){
+  //   //   console.log(col.children[0].editable);
+  //   //   return {
+  //   //     ...col,
+  //   //     onCell: (record) => ({
+  //   //       record,
+  //   //       editable: col.children[0].editable,
+  //   //       dataIndex: col.dataIndex,
+  //   //       title: col.title,
+  //   //       handleSave: handleSave,
+  //   //       isCheck:col.isCheck
+  //   //     })
+  //   //   }
+  //   // }
+
+  //   return {
+  //     ...col,
+  //     onCell: (record) => ({
+  //       record,
+  //       editable: col.editable,
+  //       dataIndex: col.dataIndex,
+  //       title: col.title,
+  //       handleSave: handleSave,
+  //       isCheck:col.isCheck
+  //     }),
+  //   };
+
+
+  // });
+
+  const mapColumns = col => {
     if (!col.editable) {
       return col;
     }
-
-    return {
+    const newCol = {
       ...col,
-      onCell: (record) => ({
+      onCell: record => ({
         record,
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
         handleSave: handleSave,
         isCheck:col.isCheck
-      }),
+      })
     };
-  });
+    if (col.children) {
+      newCol.children = col.children.map(mapColumns);
+    }
+    return newCol;
+  };
+
+  const columnsArr = columns.map(mapColumns);
 
   return (
     <div>
-    <Button
-      onClick={handleAdd}
-      type="primary"
-      style={{
-        marginBottom: 16,
-      }}
-    >
-      Add a row
-    </Button>
+      {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
+    
     <DatePicker size={'large'} onChange={onChangeDatePicker}/>
+    <Button onClick={LactationSave} type="primary" style={{ marginBottom: 16 }}>
+      저장
+    </Button>
     <Table
       components={components}
       rowClassName={() => 'editable-row'}
@@ -387,6 +447,39 @@ function LactationComponent(props) {
       columns={columnsArr}
       pagination={false}
       scroll={{ x: 2000, y: 2000 }}
+
+      summary={pageData => {
+        let TotalBreastMilkML = 0;
+        let TotalPowderedMilkML = 0;
+        let TotalBreastPumpML = 0;
+
+        pageData.forEach(({ BreastMilkML, PowderedMilkML, BreastPumpML }) => {
+          TotalBreastMilkML += BreastMilkML;
+          TotalPowderedMilkML += PowderedMilkML;
+          TotalBreastPumpML += BreastPumpML;
+        });
+
+        return (
+          <>
+            <Table.Summary.Row>
+              <Table.Summary.Cell colSpan={2}>Total</Table.Summary.Cell>
+              <Table.Summary.Cell>
+                <Text type="danger">{TotalBreastMilkML}</Text>
+              </Table.Summary.Cell>
+              <Table.Summary.Cell>
+                <Text type="danger">{TotalPowderedMilkML}</Text>
+              </Table.Summary.Cell>
+              <Table.Summary.Cell>
+                <Text type="danger">{TotalBreastPumpML}</Text>
+              </Table.Summary.Cell>
+            </Table.Summary.Row>
+            <Table.Summary.Row>
+            <Table.Summary.Cell index={0}>Summary</Table.Summary.Cell>
+            <Table.Summary.Cell index={1}><Input placeholder="Basic usage" /></Table.Summary.Cell>
+          </Table.Summary.Row>
+          </>
+        );
+      }}
     />
   </div>
   );

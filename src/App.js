@@ -8,8 +8,8 @@ import LactationComponent from './components/lactation/LactationComponent';
 // import HeaderComponent from './components/header/HeaderComponent';
 // import CalendarComponent from './components/calendar/CalendarComponent';
 // import AccountBookComponent from './components/account/AccountBookComponent';
-import SignUpCommonent from './components/sign/SignUpCommonent';
-import SignInCommonent from './components/sign/SignInCommonent';
+import SignUpComponent from './components/sign/SignUpComponent';
+import SignInComponent from './components/sign/SignInComponent';
 
 import { List, Avatar, Space,Button } from 'antd';
 
@@ -30,15 +30,15 @@ class App extends Component{
                     <div className="app-main-contents">
                         <BrowserRouter> {/*basename='/minbeom/' 1. 배포할때 이것을 빼면 라우팅 작동안함 2. npm start일 경우 이것을 빼지 않으면 작동안함(minbeom폴더에 있는 index.html 실행)*/}
                             <Switch>
-                                <Route path = "/" exact component = {SignInCommonent}></Route>
+                                <Route path = "/" exact component = {SignInComponent}></Route>
                                 <Route path = "/board" component = {ListBoardComponent}></Route>
                                 <Route path = "/board-read" component = {ReadBoardComponent}></Route>
                                 <Route path = "/board-detail" component = {BoardDetailComponent}></Route>
                                 <Route path = "/lactation" component = {LactationComponent}></Route>
                                 {/* <Route path = "/calendar" component = {CalendarComponent}></Route>
                                 <Route path = "/accountbook" component = {AccountBookComponent}></Route> */}
-                                <Route path = "/signup" component = {SignUpCommonent}></Route>
-                                <Route path = "/signin" component = {SignInCommonent}></Route>
+                                <Route path = "/signup" component = {SignUpComponent}></Route>
+                                <Route path = "/signin" component = {SignInComponent}></Route>
                             </Switch>
                         </BrowserRouter>
                     </div>
