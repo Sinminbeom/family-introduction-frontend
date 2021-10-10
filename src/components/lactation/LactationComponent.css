@@ -17,7 +17,7 @@
     border: 1px solid #434343;
   }
 
-.minbeom{
+/* .minbeom{
     position: fixed;
     left: 32px;
     top: 102px;
@@ -25,4 +25,17 @@
     display: flex;
     flex-direction: column;
     cursor: pointer;
+} */
+
+.addinfo {
+  position:absolute;
+  width:100px;
+  height:100px;
+  padding: 30px, 20px;
+  background-color:#FFFFFF;
+  text-align:center;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border-radius: 15px;
 }

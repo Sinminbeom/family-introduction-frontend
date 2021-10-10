@@ -55,7 +55,7 @@
     background: none;
   }
   
-  .btn {
+  .signbtn {
     position:relative;
     left:40%;
     transform: translateX(-50%);

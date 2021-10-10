@@ -431,6 +431,15 @@ function LactationComponent(props) {
 
   const columnsArr = columns.map(mapColumns);
 
+  function onFinish(values) {
+
+    // var formData = new FormData();
+    // formData.append('UserName',values.name);
+    // formData.append('Password',values.password);
+    // PostServiceComponent('http://49.168.71.214:8000/SignInGet.php',formData,SignInGetCallBack);
+
+  }
+
   return (
     <div>
       {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
@@ -476,7 +485,50 @@ function LactationComponent(props) {
             <Table.Summary.Row>
             <Table.Summary.Cell index={0}>Summary</Table.Summary.Cell>
             <Table.Summary.Cell index={1}><Input placeholder="Basic usage" /></Table.Summary.Cell>
+            <Table.Summary.Cell index={4}><Input placeholder="Basic usage" /><Input placeholder="Basic usage" /></Table.Summary.Cell>
           </Table.Summary.Row>
+          <div className='addinfo'>
+            <Form   className={"login-form"}
+                    initialValues={{remember:true}}
+                    onFinish={onFinish}zzzzzzzzzz
+                    xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
+              >
+                  <h2 style={{ marginTop: 30 }}>Login</h2>
+                  <Form.Item
+                      name={"name"}
+                      className='idForm'
+                      rules={
+                          [{
+                              required: true,
+                              message: 'Please Input your Username'
+                          }]
+                      }>
+                      <Input className="id" prefix={<UserOutlined className={"site-form-item-icon"} />} placeholder={'이름(아이디)'}/>
+                  </Form.Item>
+                  <Form.Item
+                      name={"password"}
+                      className='passForm'
+                      rules={
+                          [{
+                              required: true,
+                              messaeg: "please input your Password"
+                          }]
+                      }>
+                      <Input
+                          className="pw"
+                          prefix={<LockOutlined className={"site-form-item-icon"}/>}
+                          type={"password"}
+                          placeholder={"비밀번호"}
+                      />
+                  </Form.Item>
+                  <Button type={"primary"} htmlType={"submit"} className={"signbtn"}>
+                      로그인
+                  </Button>
+                  <div className='bottomText'>
+                      <Link to={"/signup"}>회원가입</Link>
+                  </div>
+              </Form>
+          </div>
           </>
         );
       }}

@@ -82,7 +82,7 @@ const SignInComponent = () => {
                         placeholder={"비밀번호"}
                     />
                 </Form.Item>
-                <Button type={"primary"} htmlType={"submit"} className={"btn"}>
+                <Button type={"primary"} htmlType={"submit"} className={"signbtn"}>
                     로그인
                 </Button>
                 <div className='bottomText'>
