@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Popconfirm, Form, Checkbox, DatePicker, Typography } from 'antd';
+import { Table, Input, Button, Popconfirm, Form, Checkbox, DatePicker, Typography, Row, Switch } from 'antd';
 import { MenuUnfoldOutlined } from '@ant-design/icons';
 import { PostServiceComponent } from '../service/ServiceComponent';
 import '../board/antdCustomize.less';
@@ -107,7 +107,7 @@ const EditableRow = ({ index, ...props }) => {
 function LactationComponent(props) {
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(2);
-  
+  const [checked, setChecked] = React.useState(false);
   
   const handleDelete = (key) => {
     // const dataSource = [...dataSource];
@@ -443,7 +443,6 @@ function LactationComponent(props) {
   return (
     <div>
       {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
-    
     <DatePicker size={'large'} onChange={onChangeDatePicker}/>
     <Button onClick={LactationSave} type="primary" style={{ marginBottom: 16 }}>
       저장
@@ -483,56 +482,79 @@ function LactationComponent(props) {
               </Table.Summary.Cell>
             </Table.Summary.Row>
             <Table.Summary.Row>
-            <Table.Summary.Cell index={0}>Summary</Table.Summary.Cell>
-            <Table.Summary.Cell index={1}><Input placeholder="Basic usage" /></Table.Summary.Cell>
-            <Table.Summary.Cell index={4}><Input placeholder="Basic usage" /><Input placeholder="Basic usage" /></Table.Summary.Cell>
-          </Table.Summary.Row>
-          <div className='addinfo'>
-            <Form   className={"login-form"}
-                    initialValues={{remember:true}}
-                    onFinish={onFinish}zzzzzzzzzz
-                    xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
-              >
-                  <h2 style={{ marginTop: 30 }}>Login</h2>
-                  <Form.Item
-                      name={"name"}
-                      className='idForm'
-                      rules={
-                          [{
-                              required: true,
-                              message: 'Please Input your Username'
-                          }]
-                      }>
-                      <Input className="id" prefix={<UserOutlined className={"site-form-item-icon"} />} placeholder={'이름(아이디)'}/>
-                  </Form.Item>
-                  <Form.Item
-                      name={"password"}
-                      className='passForm'
-                      rules={
-                          [{
-                              required: true,
-                              messaeg: "please input your Password"
-                          }]
-                      }>
-                      <Input
-                          className="pw"
-                          prefix={<LockOutlined className={"site-form-item-icon"}/>}
-                          type={"password"}
-                          placeholder={"비밀번호"}
-                      />
-                  </Form.Item>
-                  <Button type={"primary"} htmlType={"submit"} className={"signbtn"}>
-                      로그인
-                  </Button>
-                  <div className='bottomText'>
-                      <Link to={"/signup"}>회원가입</Link>
-                  </div>
-              </Form>
-          </div>
+              <Table.Summary.Cell index={0}>Summary</Table.Summary.Cell>
+              <Table.Summary.Cell index={1}><Input placeholder="Basic usage" /></Table.Summary.Cell>
+              <Table.Summary.Cell index={4}><Input placeholder="Basic usage" /><Input placeholder="Basic usage" /></Table.Summary.Cell>
+            </Table.Summary.Row>
           </>
         );
       }}
+      
     />
+    <div className='addinfo'>
+    <div className='addinfo-left'>
+      <Form>
+        <Form.Item label="Introduction">
+          <Input.TextArea />
+        </Form.Item>
+      </Form>
+    </div>
+    <div className='addinfo-right'>
+      <Form className='addinfo-form'
+            initialValues={{remember:true}}
+            onFinish={onFinish}
+            // xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
+      >
+        <Row>
+          <Form.Item  className='weight'
+                      rules={
+                        [{
+                            required: true,
+                            message: 'Please Input your Username'
+                        }]
+                      }
+                      label="몸무게(kg)">
+            <Input className="id"  placeholder={'이름(아이디)'}/>
+          </Form.Item>
+          <Form.Item  className='height'
+                      rules={
+                        [{
+                            required: true,
+                            messaeg: "please input your Password"
+                        }]
+                      }
+                      label="키(cm)">
+              <Input  className="pw"
+                      type={"password"}
+                      placeholder={"비밀번호"}/>
+          </Form.Item>
+        </Row>
+        <Row>
+          <Form.Item  className='temperature'
+                      rules={
+                        [{
+                            required: true,
+                            message: 'Please Input your Username'
+                        }]
+                      }
+                      label="체온(℃)">
+            <Input className="id"  placeholder={'이름(아이디)'}/>
+          </Form.Item>
+          <Form.Item  className='bath'
+                      rules={
+                        [{
+                            required: true,
+                            messaeg: "please input your Password"
+                        }]
+                      }
+                      label="목욕">
+            <Switch checked={checked} onChange={setChecked} />
+          </Form.Item>
+        </Row>
+      </Form>
+    </div>
+
+    </div>
   </div>
   );
 }
