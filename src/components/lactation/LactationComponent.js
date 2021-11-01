@@ -107,8 +107,29 @@ const EditableRow = ({ index, ...props }) => {
 function LactationComponent(props) {
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(2);
-  const [checked, setChecked] = React.useState(false);
-  
+  // const [checked, setChecked] = useState(false);
+  // const [weight,setWeight] = useState(0);
+  // const [height,setHeight] = useState(0);
+  // const [temperature,setTemperature] = useState(0);
+  const [Isbath,setIsbath] = useState(false);
+  // const [remark,setRemark] = useState('');
+  const [inputs, setInputs] = useState({
+    Weight: 0,
+    Height: 0,
+    Temperature: 0,
+    Remark: '',
+  })
+
+  const {Weight,Height,Temperature,Remark} = inputs;
+  const onChange = e => {
+    setInputs({
+        ...inputs,
+        [e.target.name]: e.target.value
+    });
+  };
+  const onChangeCheck = e => {
+    setIsbath(e);
+  }
   const handleDelete = (key) => {
     // const dataSource = [...dataSource];
     // this.setState({
@@ -116,6 +137,7 @@ function LactationComponent(props) {
     // });
     setDataSource(dataSource.filter((item) => item.key !== key));
   };
+
   const LactationSaveCallBack = (result) => {
     console.log(result);
     if(!result[0].Status){
@@ -124,6 +146,35 @@ function LactationComponent(props) {
     else{
       alert(result[0].Message);
     }
+  }
+  
+  const LactationAddInfoSaveCallBack = (result) =>{
+    // if(!result[0].Status){
+    //   alert('저장되었습니다.');
+    // }
+    // else{
+    //   alert(result[0].Message);
+    // }
+  }
+  const LactationAddInfoQueryCallBack = (result) => {
+    console.log(result);
+    setInputs({
+      ...inputs,
+      Weight: result[0].Weight,
+      Height: result[0].Height,
+      Temperature: result[0].Temperature,
+      Remark: result[0].Remark
+
+    });
+    switch (result[0].Isbath)
+    {
+      case '1' :
+        return setIsbath(true);
+      case '0' :
+        return setIsbath(false);
+    }
+
+
   }
   const LactationSave = (event) => {
     // const newData = {
@@ -143,6 +194,18 @@ function LactationComponent(props) {
     lactations.append('UserSeq',window.localStorage.getItem('UserSeq'));
 
     PostServiceComponent('http://49.168.71.214:8000/LactationSave.php',lactations,LactationSaveCallBack);
+
+    var lactationaddinfo = new FormData();
+
+    lactationaddinfo.append('LactationDate',dataSource[0].LactationDate);
+    lactationaddinfo.append('Weight',Weight);
+    lactationaddinfo.append('Height',Height);
+    lactationaddinfo.append('Temperature',Temperature);
+    lactationaddinfo.append('Isbath',Isbath ? '1' : '0');
+    lactationaddinfo.append('Remark',Remark);
+    lactationaddinfo.append('UserSeq',window.localStorage.getItem('UserSeq'));
+
+    PostServiceComponent('http://49.168.71.214:8000/LactationAddInfoSave.php',lactationaddinfo,LactationAddInfoSaveCallBack);
   };
 
   const handleSave = (row) => {
@@ -159,6 +222,7 @@ function LactationComponent(props) {
       cell: EditableCell,
     },
   };
+
   const DateSaveCallBack = (response) => {
         
     for(let i=0; i<response.length; i++)
@@ -179,6 +243,12 @@ function LactationComponent(props) {
     LactationDate.append('UserSeq',localStorage.getItem('UserSeq'));
 
     PostServiceComponent('http://49.168.71.214:8000/LactationDateQuery.php',LactationDate,DateSaveCallBack);
+
+    var LactationAddInfo = new FormData();
+
+    LactationAddInfo.append('LactationDate',e.format('YYYYMMDD'));
+
+    PostServiceComponent('http://49.168.71.214:8000/LactationAddInfoQuery.php',LactationAddInfo,LactationAddInfoQueryCallBack);
   }
 
   const columns = [
@@ -441,13 +511,14 @@ function LactationComponent(props) {
   }
 
   return (
-    <div>
+  <div className='lactation'>
+    <div className='lactationDate'>
       {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
-    <DatePicker size={'large'} onChange={onChangeDatePicker}/>
-    <Button onClick={LactationSave} type="primary" style={{ marginBottom: 16 }}>
-      저장
-    </Button>
-    <Table
+      <DatePicker size={'large'} onChange={onChangeDatePicker}/>
+      <Button onClick={LactationSave} type="primary" style={{ marginBottom: 16 }}>
+        저장
+      </Button>
+      <Table
       components={components}
       rowClassName={() => 'editable-row'}
       bordered
@@ -490,71 +561,71 @@ function LactationComponent(props) {
         );
       }}
       
-    />
+      />
+    </div>
     <div className='addinfo'>
-    <div className='addinfo-left'>
-      <Form>
-        <Form.Item label="Introduction">
-          <Input.TextArea />
-        </Form.Item>
-      </Form>
-    </div>
-    <div className='addinfo-right'>
-      <Form className='addinfo-form'
-            initialValues={{remember:true}}
-            onFinish={onFinish}
-            // xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
-      >
-        <Row>
-          <Form.Item  className='weight'
-                      rules={
-                        [{
-                            required: true,
-                            message: 'Please Input your Username'
-                        }]
-                      }
-                      label="몸무게(kg)">
-            <Input className="id"  placeholder={'이름(아이디)'}/>
+      <div className='addinfo-left'>
+        <Form>
+          <Form.Item className='description' label="발달사항">
+            <Input.TextArea name='Remark' onChange={onChange} value={Remark}/>
           </Form.Item>
-          <Form.Item  className='height'
-                      rules={
-                        [{
-                            required: true,
-                            messaeg: "please input your Password"
-                        }]
-                      }
-                      label="키(cm)">
-              <Input  className="pw"
-                      type={"password"}
-                      placeholder={"비밀번호"}/>
-          </Form.Item>
-        </Row>
-        <Row>
-          <Form.Item  className='temperature'
-                      rules={
-                        [{
-                            required: true,
-                            message: 'Please Input your Username'
-                        }]
-                      }
-                      label="체온(℃)">
-            <Input className="id"  placeholder={'이름(아이디)'}/>
-          </Form.Item>
-          <Form.Item  className='bath'
-                      rules={
-                        [{
-                            required: true,
-                            messaeg: "please input your Password"
-                        }]
-                      }
-                      label="목욕">
-            <Switch checked={checked} onChange={setChecked} />
-          </Form.Item>
-        </Row>
-      </Form>
-    </div>
+        </Form>
+      </div>
+      <div className='addinfo-right'>
+        <Form className='addinfo-form'
+              initialValues={{remember:true}}
+              onFinish={onFinish}
+              // xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
+        >
+          <Row>
+            <Form.Item  className='weight'
+                        rules={
+                          [{
+                              required: true,
+                              message: 'Please Input your Username'
+                          }]
+                        }
+                        label="몸무게(kg)">
+              <Input name='Weight' onChange={onChange} placeholder={'몸무게(kg)'} value={Weight}/>
+            </Form.Item>
+            <Form.Item  className='height'
+                        rules={
+                          [{
+                              required: true,
+                              messaeg: "please input your Password"
+                          }]
+                        }
+                        label="키(cm)">
+              <Input name='Height' onChange={onChange} placeholder={"키(cm)"} value={Height}/>
+            </Form.Item>
+          </Row>
+          <Row>
+            <Form.Item  className='temperature'
+                        rules={
+                          [{
+                              required: true,
+                              message: 'Please Input your Username'
+                          }]
+                        }
+                        label="체온(℃)">
+              <Input name='Temperature' onChange={onChange} placeholder={'체온(℃)'} value={Temperature}/>
+            </Form.Item>
+            <Form.Item  className='isbath'
+                        rules={
+                          [{
+                              required: true,
+                              messaeg: "please input your Password"
+                          }]
+                        }
+                        label="목욕">
+              <Switch name='Isbath' checked={Isbath ? true : false}  onChange={onChangeCheck} />
+            </Form.Item>
+          </Row>
+        </Form>
+      </div>
 
     </div>
+    
   </div>
   );
 }
