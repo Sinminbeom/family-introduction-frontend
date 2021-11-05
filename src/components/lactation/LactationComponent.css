@@ -81,3 +81,10 @@
 .description{
   height: 100%;
 }
+.ant-table-summary{
+  text-align: center;
+}
+.lactationQuery{  
+  display: flex;
+  justify-content: flex-end;
+}

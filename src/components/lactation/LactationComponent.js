@@ -512,12 +512,14 @@ function LactationComponent(props) {
 
   return (
   <div className='lactation'>
-    <div className='lactationDate'>
-      {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
-      <DatePicker size={'large'} onChange={onChangeDatePicker}/>
-      <Button onClick={LactationSave} type="primary" style={{ marginBottom: 16 }}>
+    <div className='lactationQuery'>
+      <DatePicker onChange={onChangeDatePicker}/>
+      <Button onClick={LactationSave} type="primary">
         저장
       </Button>
+    </div>
+    <div className='lactationDate'>
+      {/* <div className='minbeom'><MenuUnfoldOutlined /></div> */}
       <Table
       components={components}
       rowClassName={() => 'editable-row'}
@@ -526,8 +528,10 @@ function LactationComponent(props) {
       columns={columnsArr}
       pagination={false}
       scroll={{ x: 2000, y: 2000 }}
-
-      summary={pageData => {
+      style={{ textAlign: 'center'}}
+      
+      summary={pageData => {  
+        
         let TotalBreastMilkML = 0;
         let TotalPowderedMilkML = 0;
         let TotalBreastPumpML = 0;
@@ -541,21 +545,16 @@ function LactationComponent(props) {
         return (
           <>
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={2}>Total</Table.Summary.Cell>
-              <Table.Summary.Cell>
-                <Text type="danger">{TotalBreastMilkML}</Text>
+              <Table.Summary.Cell colSpan={2}>Total</Table.Summary.Cell> 
+              <Table.Summary.Cell colSpan={2}>
+                <Text type="danger" style={{ textAlign: 'center'}}>{TotalBreastMilkML}</Text>
               </Table.Summary.Cell>
-              <Table.Summary.Cell>
-                <Text type="danger">{TotalPowderedMilkML}</Text>
+              <Table.Summary.Cell colSpan={2}>
+                <Text type="danger" style={{ textAlign: 'center'}}>{TotalPowderedMilkML}</Text>
               </Table.Summary.Cell>
-              <Table.Summary.Cell>
-                <Text type="danger">{TotalBreastPumpML}</Text>
+              <Table.Summary.Cell colSpan={2}>
+                <Text type="danger" style={{ align: 'center'}} >{TotalBreastPumpML}</Text>
               </Table.Summary.Cell>
-            </Table.Summary.Row>
-            <Table.Summary.Row>
-              <Table.Summary.Cell index={0}>Summary</Table.Summary.Cell>
-              <Table.Summary.Cell index={1}><Input placeholder="Basic usage" /></Table.Summary.Cell>
-              <Table.Summary.Cell index={4}><Input placeholder="Basic usage" /><Input placeholder="Basic usage" /></Table.Summary.Cell>
             </Table.Summary.Row>
           </>
         );

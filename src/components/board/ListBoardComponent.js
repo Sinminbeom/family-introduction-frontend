@@ -74,7 +74,7 @@ class ListBoardComponent extends Component{
               onChange: page => {
                 console.log(page);
               },
-              pageSize: 4,
+              pageSize: 5,
             }}
             dataSource={this.state.boards}
             footer={
