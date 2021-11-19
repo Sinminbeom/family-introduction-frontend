@@ -78,13 +78,13 @@
 .addinfo{
   height: 30%;
 } */
-.description{
-  height: 100%;
-}
 .ant-table-summary{
   text-align: center;
 }
 .lactationQuery{  
   display: flex;
   justify-content: flex-end;
+}
+.ant-table-thead > tr >th{
+  background:pink !important;
 }

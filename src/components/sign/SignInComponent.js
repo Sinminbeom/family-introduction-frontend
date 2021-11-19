@@ -54,7 +54,7 @@ const SignInComponent = () => {
                   onFinish={onFinish}
                   xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}
             >
-                <h2 style={{ marginTop: 30 }}>Login</h2>
+                <h2 className='loginheader'>Login</h2>
                 <Form.Item
                     name={"name"}
                     className='idForm'

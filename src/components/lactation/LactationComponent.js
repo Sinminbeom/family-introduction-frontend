@@ -268,7 +268,9 @@ function LactationComponent(props) {
         
         const obj = {
           children: value,
-          props: {},
+          props: {
+            style: { background: "pink" }
+          },
         };
 
         if (index === 0) {
@@ -352,7 +354,15 @@ function LactationComponent(props) {
       title: '시(Hour)',
       dataIndex: 'LactationHour',
       align: 'center',
-      colSpan:0
+      colSpan:0,
+      render(text, record) {
+        return {
+          props: {
+            style: { background: "pink" }
+          },
+          children: <div>{text}</div>
+        };
+      }
     },
     {
       title: '모유',
@@ -527,7 +537,7 @@ function LactationComponent(props) {
       dataSource={dataSource}
       columns={columnsArr}
       pagination={false}
-      scroll={{ x: 2000, y: 2000 }}
+      scroll={{ x: 1500, y: 2000 }}
       style={{ textAlign: 'center'}}
       
       summary={pageData => {  
