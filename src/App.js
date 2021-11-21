@@ -11,14 +11,19 @@ import LactationComponent from './components/lactation/LactationComponent';
 import SignUpComponent from './components/sign/SignUpComponent';
 import SignInComponent from './components/sign/SignInComponent';
 
-import { List, Avatar, Space,Button } from 'antd';
+import { Button, Affix } from 'antd';
 
 class App extends Component{
     constructor(props){
         super(props);
-    
+        this.state = {
+            top: 10,
+        }
     }
-
+    setTop = () => {
+        this.setState({top: this.state.top + 10});
+    }
+    // onClick={this.setTop}
     render(){
         return( 
         <>
@@ -27,6 +32,11 @@ class App extends Component{
                     {/* <div className="app-main-header">
                         <HeaderComponent/> 
                     </div> */}
+                    <Affix offsetTop={this.state.top}>
+                        <Button type="primary" >
+                            Affix top
+                        </Button>
+                    </Affix>
                     <div className="app-main-contents">
                         <BrowserRouter> {/*basename='/minbeom/' 1. 배포할때 이것을 빼면 라우팅 작동안함 2. npm start일 경우 이것을 빼지 않으면 작동안함(minbeom폴더에 있는 index.html 실행)*/}
                             <Switch>
