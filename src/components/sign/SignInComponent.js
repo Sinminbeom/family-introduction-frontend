@@ -22,6 +22,14 @@ const SignInComponent = () => {
         }
     }, [isValid,error]);
 
+    useEffect(() => { 
+        if(isSuccess)
+        {
+            localStorage.setItem('token',true);
+        }
+    }, [isSuccess])
+
+    
     const SignInGetCallBack = (result) => {
         if(!result[0].Status){
             setIsSuccess(true);
