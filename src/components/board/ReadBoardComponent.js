@@ -20,6 +20,7 @@ class ReadBoardComponent extends Component {
         this.refreshFunction = this.refreshFunction.bind(this);
         this.BoardGetCallBack = this.BoardGetCallBack.bind(this);
         this.BoardDeleteCallBack = this.BoardDeleteCallBack.bind(this);
+        setBoard();
     }
 
     CommentGetCallBack(result){
@@ -34,7 +35,7 @@ class ReadBoardComponent extends Component {
     BoardDeleteCallBack(result){
         this.props.history.push('/board');
     }
-    componentDidMount(){
+    setBoard(){
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const boardseq = params.get('boardseq');

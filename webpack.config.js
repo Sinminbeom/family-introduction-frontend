@@ -11,7 +11,7 @@ module.exports = {                                      // moduel export (옛날
     },
     
     mode: 'development', //웹팩 디버깅할때 이것을 써야 중단점이 먹히고 디버깅이 먹힌다.
-    // devtool: 'inline-source-map',
+    devtool: 'inline-source-map', //웹팩 디버깅할때 이것을 쓰지 않으면 bundle된 소스에 디버깅이 된다. 꼭써야한다.
     module: {                                           // javascript 모듈을 생성할 규칙을 지정 (node_module을 제외한.js 파일을 babel-loader로 불러와 모듈을 생성
         rules: [
             {
@@ -44,6 +44,7 @@ module.exports = {                                      // moduel export (옛날
                             lessOptions: { // If you are using less-loader@5 please spread the lessOptions to options directly
                                 modifyVars: {
                                     '@primary-color': '#e920d8',
+                                    '@font-size-base': '23px'
                                     // '@primary-color': '#e920d8',
                                     // '@link-color': '#1DA57A',
                                     // '@border-radius-base': '2px',
@@ -58,7 +59,7 @@ module.exports = {                                      // moduel export (옛날
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, '/dist'),
+        contentBase: path.join(__dirname, '/dist'), //디버깅할때 어떤 경로의 index.html 실행할
         port: 3000,
         historyApiFallback: true
     },
